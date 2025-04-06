@@ -86,7 +86,7 @@ As usual, please open an issue here if you notice any bugs/abnormal behaviour. T
 - [x] Rework status, nickname, and unmonitor commands to include dropdown menus
 - [ ] Rework monitor and nickname commands to include modal workflow
 - [x] Allow disabling of ephemeral messages
-- [ ] Minecraft plugin to allow monitoring of local servers
+- [x] ~~Minecraft plugin to allow monitoring of local servers~~ Use [Playit](https://playit.gg/)
 - [ ] Add option to monitor server with message embed instead of voice channels
 - [ ] Link Discord usernames to Minecraft accounts for player list in status command (see [this](https://github.com/dommilosz/minecraft-auth) repository)
 - [ ] Add graph support (see [this](https://github.com/cappig/MC-status-bot) repository)
