@@ -86,12 +86,15 @@ As usual, please open an issue here if you notice any bugs/abnormal behaviour. T
 
 ## Roadmap
 
-- [x] Rework status, nickname, and unmonitor commands to include dropdown menus
-- [ ] Rework monitor and nickname commands to include modal workflow
-- [x] Allow disabling of ephemeral messages
-- [x] ~~Minecraft plugin to allow monitoring of local servers~~ Use [Playit](https://playit.gg/)
+- [ ] Add server list command (basic management interface)
 - [ ] Add option to monitor server with message embed instead of voice channels
+- [ ] Docker version for self host uses
+- [ ] Server offline notifications in channel
+- [ ] Rewrite backend api to support ipc and new federation system
+- [ ] Rework monitor and nickname commands to include modal workflow
 - [ ] Link Discord usernames to Minecraft accounts for player list in status command (see [this](https://github.com/dommilosz/minecraft-auth) repository)
 - [ ] Add graph support (see [this](https://github.com/cappig/MC-status-bot) repository)
+- [x] Rework status, nickname, and unmonitor commands to include dropdown menus
+- [x] Allow disabling of ephemeral messages
+- [x] ~~Minecraft plugin to allow monitoring of local servers~~ Use [Playit](https://playit.gg/)
 - [x] Custom online / offline indicators
-- [ ] Server offline notifications in channel
