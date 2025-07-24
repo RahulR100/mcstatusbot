@@ -1,9 +1,9 @@
 {
 	"name": "mcstatus-discordbot",
-	"version": "2025.03.13",
-	"description": "A simple Discord.js bot that pings Minecraft servers using the \"mcping-js\" node module.",
+	"version": "2025.07.24",
+	"description": "A simple Discord.js bot that pings Minecraft servers.",
 	"engines": {
-		"node": "20.x"
+		"node": "22.x"
 	},
 	"scripts": {
 		"start": "node index.js",
