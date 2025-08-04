@@ -1,16 +1,11 @@
 'use strict';
 import 'dotenv/config';
-import { statusBedrock, statusJava } from 'node-mcstatus';
+import axios from 'axios';
 import unidecode from 'unidecode';
 import { validateHost } from './validateHost.js';
 
-const options_high = {
-	baseURL: process.env.NODE_ENV == 'production' ? 'http://127.0.0.1:3001' : 'https://api.mcstatus.io/v2'
-};
 
-const options_low = {
-	baseURL: process.env.NODE_ENV == 'production' ? 'http://127.0.0.1:3002' : 'https://api.mcstatus.io/v2'
-};
+const ping_server = process.env.PING_URL;
 
 export async function getServerStatus(server, priority = 'high_priority') {
 	if (!validateHost(server.ip).valid) {
@@ -21,24 +16,26 @@ export async function getServerStatus(server, priority = 'high_priority') {
 	ip = unidecode(ip);
 	port = parseInt(port) || undefined;
 
-	let startTime = Date.now();
-	let options = priority == 'high_priority' ? options_high : options_low;
-	let response = server.platform == 'bedrock' ? await statusBedrock(ip, port, options) : await statusJava(ip, port, options);
-	let latency = Date.now() - startTime + ' ms';
+    const cache_len = priority == 'high_priority' ? 'sm' : 'lg';
+    let response;
 
-	// Final check for valid response, incase our validation missed something
+    if (port) {
+        response = await axios.get(`${ping_server}/status/${cache_len}/${ip}/${port}`);
+    } else {
+        response = await axios.get(`${ping_server}/status/${cache_len}/${ip}`);
+    }
+
+    if (response.status !== 200) {
+        throw new Error(`Server returned status code ${response.status}`);
+    }
+
+    // Get response object from axios
+    response = response.data;
+
+    // Final check for valid response, incase our validation missed something
 	if (typeof response != 'object') {
 		throw new Error('Invalid server response');
 	}
 
-	// Use the clean name where possible
-	if (response.online) {
-		if (response.version) {
-			response.version.name = response.version.name_clean || response.version.name;
-		} else {
-			response.version = { name: 'Unknown Version' };
-		}
-	}
-
-	return { ...response, latency };
+	return { ...response };
 }

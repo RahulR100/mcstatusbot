@@ -26,7 +26,7 @@ export async function renameChannels(channels, serverStatus, indicators, priorit
 	} else {
 		channelNames = {
 			status: serverStatus.online ? `Status: ${indicators.onlineIndicator}` : `Status: ${indicators.offlineIndicator}`,
-			players: serverStatus.players ? `Players: ${serverStatus.players.online} / ${serverStatus.players.max}` : 'Players: 0'
+			players: `Players: ${serverStatus.current_players} / ${serverStatus.max_players}`
 		};
 	}
 

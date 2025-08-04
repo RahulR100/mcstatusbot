@@ -97,12 +97,12 @@ export async function execute(interaction) {
 
 	// Message if server is online
 	let message;
-	if (!serverStatus.players.online) {
+	if (!serverStatus.current_players) {
 		message = noPlayersLocalizations[interaction.locale] ?? `*No one is playing!*`;
 	} else {
-		let playerList = serverStatus.players.list?.map((player) => player.name_clean) || [];
+        let playerList = serverStatus.player_list || [];
 
-		message = `**${serverStatus.players.online || 0}/${serverStatus.players.max}** ${playersOnlineLocalizations[interaction.locale] ?? 'player(s) online.'}`;
+		message = `**${serverStatus.current_players}/${serverStatus.max_players}** ${playersOnlineLocalizations[interaction.locale] ?? 'player(s) online.'}`;
 		if (playerList.length) message += `\n\n ${playerList.sort().join(', ')}`;
 	}
 
@@ -111,19 +111,19 @@ export async function execute(interaction) {
 		.setColor(embedColor)
 		.setDescription(message)
 		.addFields(
-			{ name: MOTDLocalizations[interaction.locale] ?? 'MOTD:', value: serverStatus.motd.clean || (noMOTDLocalizations[interaction.locale] ?? 'None') },
+			{ name: MOTDLocalizations[interaction.locale] ?? 'MOTD:', value: serverStatus.stripped_motd || (noMOTDLocalizations[interaction.locale] ?? 'None') },
 			{
 				name: serverVersionLocalizations[interaction.locale] ?? 'Server version:',
-				value: serverStatus.version.name || (noServerVersionLocalizations[interaction.locale] ?? 'Not specified'),
+				value: serverStatus.version || (noServerVersionLocalizations[interaction.locale] ?? 'Not specified'),
 				inline: true
 			},
-			{ name: latencyLocalizations[interaction.locale] ?? 'Latency:', value: serverStatus.latency, inline: true }
+			{ name: latencyLocalizations[interaction.locale] ?? 'Latency:', value: `${serverStatus.latency} ms`, inline: true }
 		);
 
 	// Set thumbnail to server icon
 	let files = [];
-	if (serverStatus.icon) {
-		let iconBuffer = new Buffer.from(serverStatus.icon.split(',')[1], 'base64');
+	if (serverStatus.favicon_b64) {
+		let iconBuffer = new Buffer.from(serverStatus.favicon_b64.split(',')[1], 'base64');
 		files.push(new AttachmentBuilder(iconBuffer, { name: 'icon.jpg' }));
 		responseEmbed.setThumbnail('attachment://icon.jpg');
 	}
