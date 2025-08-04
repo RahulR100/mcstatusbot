@@ -5,11 +5,11 @@ import unidecode from 'unidecode';
 import { validateHost } from './validateHost.js';
 
 const options_high = {
-	baseURL: process.env.NODE_ENV == 'production' ? 'http://127.0.0.1:3001' : 'https://api.mcstatus.io/v2'
+	baseURL: process.env.HIGH_PING_URL
 };
 
 const options_low = {
-	baseURL: process.env.NODE_ENV == 'production' ? 'http://127.0.0.1:3002' : 'https://api.mcstatus.io/v2'
+	baseURL: process.env.LOW_PING_URL
 };
 
 export async function getServerStatus(server, priority = 'high_priority') {
