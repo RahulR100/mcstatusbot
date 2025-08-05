@@ -98,7 +98,7 @@ async function init() {
 
 	if (process.env.UPDATE_SERVERS_ON_LAUNCH == 'true') await updateServers(client);
 	// Delay the update based on cluster id
-	setTimeout(() => setInterval(updateServers, interval, client), client.cluster.id * 90 * 1000);
+	setTimeout(() => setInterval(updateServers, interval, client), client.cluster.id * 1000);
 
 	// Update shard status in delegate
 	if (process.env.NODE_ENV == 'production') {
