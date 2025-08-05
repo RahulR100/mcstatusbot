@@ -9,6 +9,23 @@ import { pathToFileURL } from 'node:url';
 import { beaver } from './functions/consoleLogging.js';
 import { updateServers } from './functions/updateServers.js';
 import { updateDelegate } from './functions/updateDelegate.js';
+import { getTotalMonitoredServers } from './functions/databaseFunctions.js';
+
+let spoolErrors = false;
+
+// Database Handler
+mongoose.set('strictQuery', true);
+mongoose.set('debug', false);
+
+try {
+    await mongoose.connect(process.env.DATABASE_URL, { dbName: process.env.DATABASE_NAME });
+} catch (error) {
+    beaver.log('database', error);
+    spoolErrors = true;
+}
+
+const totalGuilds = await getTotalMonitoredServers();
+const interval = Math.round(Math.max(6 * 60 * 1000, ((totalGuilds / 50) * 1000) + process.env.BUFFER));
 
 let clientOptions = {
 	shards: getInfo().SHARD_LIST,
@@ -18,7 +35,7 @@ let clientOptions = {
 };
 
 if (process.env.NODE_ENV == 'production') {
-	clientOptions.rest = { api: `${process.env.PROXY_URL}/api`, globalRequestsPerSecond: Infinity, timeout: 6 * 60 * 1000, retries: 1 };
+	clientOptions.rest = { api: `${process.env.PROXY_URL}/api`, globalRequestsPerSecond: Infinity, timeout: interval, retries: 1 };
 }
 
 export let client = new Client(clientOptions);
@@ -46,16 +63,7 @@ client.on('error', (msg) => beaver.log('client', msg));
 client.login(process.env.TOKEN);
 
 async function init() {
-	// Database Handler
-	mongoose.set('strictQuery', true);
-	mongoose.set('debug', false);
-
-	try {
-		await mongoose.connect(process.env.DATABASE_URL, { dbName: process.env.DATABASE_NAME });
-	} catch (error) {
-		beaver.log('database', error);
-		return;
-	}
+    if (spoolErrors) return;
 
 	// Command Handler
 	const commandsPath = path.resolve(process.cwd(), './commands');
@@ -84,9 +92,13 @@ async function init() {
 	}
 
 	// Update Servers
+    if (client.cluster.id == 0) {
+        beaver.log('update-servers', `We have ${totalGuilds} servers monitored, making the update interval ${interval / 1000} seconds`);
+    }
+
 	if (process.env.UPDATE_SERVERS_ON_LAUNCH == 'true') await updateServers(client);
 	// Delay the update based on cluster id
-	setTimeout(() => setInterval(updateServers, 6 * 60 * 1000, client), client.cluster.id * process.env.BUFFER * 1000);
+	setTimeout(() => setInterval(updateServers, interval, client), client.cluster.id * 7 * 1000);
 
 	// Update shard status in delegate
 	if (process.env.NODE_ENV == 'production') {

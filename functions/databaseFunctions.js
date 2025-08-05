@@ -186,3 +186,12 @@ export async function setOfflineIndicator(key, server, offlineIndicator) {
 		})
 		.catch(databaseError);
 }
+
+export async function getTotalMonitoredServers() {
+    return Guild.find()
+        .exec()
+        .then((guilds) => {
+            return guilds.reduce((total, guild) => total + (guild.servers ? guild.servers.length : 0), 0);
+        })
+        .catch(databaseError);
+}

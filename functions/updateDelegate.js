@@ -1,3 +1,4 @@
+'use strict';
 import 'dotenv/config';
 import { beaver } from './consoleLogging.js';
 
@@ -7,8 +8,7 @@ export async function updateDelegate(client) {
 	if (client.cluster.id == 0) {
 		try {
 			const serverCountByShard = await client.cluster.fetchClientValues('guilds.cache.size');
-			const serverCount = serverCountByShard.reduce((totalGuilds, shardGuilds) => totalGuilds + shardGuilds, 0);
-
+	        const serverCount = serverCountByShard.reduce((totalGuilds, shardGuilds) => totalGuilds + shardGuilds, 0);
 			await fetch(process.env.DELEGATE_URL + '/count/set', {
 				method: 'POST',
 				headers: {
