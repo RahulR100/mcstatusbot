@@ -35,7 +35,7 @@ let clientOptions = {
 };
 
 if (process.env.NODE_ENV == 'production') {
-	clientOptions.rest = { api: `${process.env.PROXY_URL}/api`, globalRequestsPerSecond: Infinity, timeout: interval, retries: 1 };
+	clientOptions.rest = { api: `${process.env.PROXY_URL}/api`, globalRequestsPerSecond: Infinity, timeout: interval };
 }
 
 export let client = new Client(clientOptions);
