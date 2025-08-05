@@ -25,7 +25,7 @@ try {
 }
 
 const totalGuilds = await getTotalMonitoredServers();
-const interval = Math.round(Math.max(6 * 60 * 1000, ((totalGuilds / 50) + process.env.BUFFER)) * 1000);
+const interval = Math.round(Math.max(6 * 60 * 1000, ((totalGuilds / 50) + parseInt(process.env.BUFFER)) * 1000));
 
 let clientOptions = {
 	shards: getInfo().SHARD_LIST,
