@@ -23,7 +23,7 @@ Part 1 is a more technical update, and lays the groundwork for future feature up
 
 - We have a brand new server! Now with 5x the cores and 2x the RAM
 - Version 2 of the proxy is now in use. This should make all commands to the bot much faster
-- A new custom ping server is also implemented, moving away from older libraries. This allows
+- A new custom ping server is also implemented, moving away from older libraries.
 - New DNS services are now implemented which should fix the server online -> offline -> online flicker bug
 - The bot now runs using the new Docker version. This means all internal build pipelines are working well and this Docker version will be ready for yall to use soon
 
