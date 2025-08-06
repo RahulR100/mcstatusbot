@@ -5,8 +5,9 @@ import { getServers, setServers } from '../functions/databaseFunctions.js';
 import { findServer, findServerIndex } from '../functions/findServer.js';
 import { isNotMonitored } from '../functions/inputValidation.js';
 
-// Despite its name, this event updates the category name
-// It is used for setting nicknames
+// This event is triggered when a category name is updated
+// Users can manually update a category name, which is the manual equivalent of giving the bot a nickname
+// We want to keep track of these changes so we can update our database accordingly
 export const name = Events.ChannelUpdate;
 export const once = false;
 

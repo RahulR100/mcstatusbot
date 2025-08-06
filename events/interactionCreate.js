@@ -4,6 +4,8 @@ import { beaver } from '../functions/consoleLogging.js';
 import { cooldownErrorLocalizations, errorMessageLocalizations } from '../localizations/interactionCreate.js';
 import { getEphemeral } from '../functions/databaseFunctions.js';
 
+// This function is executed when the bot receives an interaction
+
 // Mandatory event metadata
 export const name = Events.InteractionCreate;
 export const once = false;
