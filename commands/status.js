@@ -24,6 +24,8 @@ import {
 	statusForLocalizations
 } from '../localizations/status.js';
 
+// Command to get the status of a server
+
 // prettier-ignore
 export const data = new SlashCommandBuilder()
 	.setName('status')
@@ -45,10 +47,18 @@ export const data = new SlashCommandBuilder()
 		.setChoices({ name: 'Java', value: 'java' }, { name: 'Bedrock', value: 'bedrock' }));
 
 export async function execute(interaction) {
-	let server;
+	// This will hold the server object
+    let server;
 
+    // If a server parameter has been provided
 	if (interaction.options.getString('server')) {
+        // First try to find the server (we assume it is monitored)
 		server = await findServer(interaction.options.getString('server'), ['nickname', 'ip'], interaction.guildId);
+
+        // If we are unable to find the server, we assume that the user has provided the IP of an unmonitored server
+        // This is perfectly valid since we want to find the status of any server
+        // Here we override the server object to act as though it was a monitored server
+        // If a platform has not been provided here, we assume they want to check a Java server
 		if (!server) {
 			server = {
 				ip: interaction.options.getString('server'),
@@ -56,7 +66,11 @@ export async function execute(interaction) {
 			};
 		}
 	} else {
+        // If no server was provided and none are monitored, we cannot continue
 		if (await noMonitoredServers(interaction.guildId, interaction, true)) return;
+
+        // If no server was provided, but there is a default server set, use that instead
+        // A guild should always have a default server
 		server = await findDefaultServer(interaction.guildId);
 	}
 
@@ -85,7 +99,7 @@ export async function execute(interaction) {
 		return;
 	}
 
-	// Message if server is offline
+	// If server is offline, we send a simplified offline message since other parameters won't be available
 	if (!serverStatus.online) {
 		await sendMessage(
 			interaction,
@@ -95,17 +109,24 @@ export async function execute(interaction) {
 		return;
 	}
 
-	// Message if server is online
+	// If the server is online, we create the full message
 	let message;
+
+    // If no one is online, we indicate this in a more human readable manner than 0/x
+    // Extra? maybe but it causes no harm
 	if (!serverStatus.current_players) {
 		message = noPlayersLocalizations[interaction.locale] ?? `*No one is playing!*`;
 	} else {
+        // If the server returns a player list (only happens if it has query enabled), we want to keep track of it
         let playerList = serverStatus.player_list || [];
 
+        // Add the current playerset to the message.
 		message = `**${serverStatus.current_players}/${serverStatus.max_players}** ${playersOnlineLocalizations[interaction.locale] ?? 'player(s) online.'}`;
 		if (playerList.length) message += `\n\n ${playerList.sort().join(', ')}`;
 	}
 
+    // Build the response embed we will send back to discord
+    // It contains information llike the MOTD, server version, and latency with nice formatting
 	const responseEmbed = new EmbedBuilder()
 		.setTitle(`${statusForLocalizations[interaction.locale] ?? 'Status for'} ${server.ip}:`)
 		.setColor(embedColor)
@@ -120,13 +141,21 @@ export async function execute(interaction) {
 			{ name: latencyLocalizations[interaction.locale] ?? 'Latency:', value: `${serverStatus.latency} ms`, inline: true }
 		);
 
-	// Set thumbnail to server icon
+	// Set thumbnail of the embed to server icon
+    // Discord makes this a little convoluted
+    // We essentially need to download the icon, turn it into a file, then add the file as an attachment
+    // TODO: If no server icon is returned, use the default minecraft server icon
 	let files = [];
+
 	if (serverStatus.favicon_b64) {
+        // Extract the image data
 		let iconBuffer = new Buffer.from(serverStatus.favicon_b64.split(',')[1], 'base64');
+        // Convert it into an attachment
 		files.push(new AttachmentBuilder(iconBuffer, { name: 'icon.jpg' }));
+        // Add the attachment as the thumbnail
 		responseEmbed.setThumbnail('attachment://icon.jpg');
 	}
 
+    // Reply with the attached thumbnail
 	await interaction.editReply({ embeds: [responseEmbed], files });
 }

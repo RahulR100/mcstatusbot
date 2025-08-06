@@ -27,6 +27,8 @@ import {
 	successMessageLocalizations
 } from '../localizations/monitor.js';
 
+// Command to monitor a new server
+
 // prettier-ignore
 export const data = new SlashCommandBuilder()
 	.setName('monitor')
@@ -74,11 +76,18 @@ export const data = new SlashCommandBuilder()
     .setContexts([InteractionContextType.Guild]);
 
 export async function execute(interaction) {
+    // If the bot is missing permissions on the server, stop
 	if (await isMissingPermissions('server', interaction.guild, interaction)) return;
+
+    // If the IP or nickname is already used, stop
+    // We do not want to monitor duplicate servers
 	if (await isMonitored(interaction.options.getString('ip'), interaction.guildId, interaction)) return;
 	if (await isNicknameUsed(interaction.options.getString('nickname'), interaction.guildId, interaction)) return;
+
+    // Check if the server is valid before adding it to the pool
 	if (!(await isValidServer(interaction.options.getString('ip'), interaction))) return;
 
+    // Get custom online and offline indicators if they are provided
 	const onlineIndicator = interaction.options.getString('online');
 	const offlineIndicator = interaction.options.getString('offline');
 
@@ -100,6 +109,8 @@ export async function execute(interaction) {
 	}
 
 	// Create the server object
+    // Note: If this is the first server monitored, then it will automatically become the default
+    // This ensures every guild has a default server
 	let server = {
 		ip: interaction.options.getString('ip'),
 		nickname: interaction.options.getString('nickname') || null,
@@ -110,6 +121,7 @@ export async function execute(interaction) {
 	};
 
 	// Create the server category
+    // Also set the category and voice channel permissions
 	try {
 		let category = await interaction.guild.channels.create({
 			name: interaction.options.getString('nickname') || interaction.options.getString('ip'),
@@ -137,10 +149,14 @@ export async function execute(interaction) {
 	}
 
 	// Create the channels and add to category
+    // Also add a placeholder to show that the bot is fetching the status of the servers
+    // The channel creation and status fetching are decoupled to improve user experience (a change is seen faster)
 	let voiceChannels = [
 		{ idType: 'statusId', name: 'Status: ...' },
 		{ idType: 'playersId', name: 'Players: ...' }
 	];
+
+    // Try creating the voice channels
 	for (const voiceChannel of voiceChannels) {
 		try {
 			let channel = await interaction.guild.channels.create({
@@ -150,8 +166,12 @@ export async function execute(interaction) {
 			server[voiceChannel.idType] = channel.id;
 			await channel.setParent(server.categoryId);
 		} catch (error) {
+            // If there is an error in any voice channel, we roll back the creation of everything
+            // This tries to ensure that the user does not need to delete channels manually
+            // If this too fails, then the channels must be deleted manually
 			const channelIds = ['categoryId', 'statusId', 'playersId'];
-			await Promise.allSettled(
+			
+            await Promise.allSettled(
 				channelIds.map(async (channelId) => {
 					try {
 						await interaction.guild.channels.cache.get(server[channelId])?.delete();
@@ -169,19 +189,23 @@ export async function execute(interaction) {
 					}
 				})
 			);
+
 			beaver.log('monitor', `Error creating voice channel in guild: ${interaction.guildId}`, error);
+
 			await sendMessage(
 				interaction,
 				errorMessageLocalizations[interaction.locale] ??
 					'There was an error while creating the channels, please manually delete any channels that were created!'
 			);
+
 			return;
 		}
 	}
 
-	// Add the server to the database
+	// Add the server to the database once we know the channels have been created successfully
 	await addServer(interaction.guildId, server);
 
+    // Send success message
 	await sendMessage(
 		interaction,
 		interaction.options.getBoolean('default')
@@ -192,7 +216,8 @@ export async function execute(interaction) {
 	// Get the online/offline indicators for the server
 	const indicators = await getIndicators(interaction.guildId, server);
 
-	// Get the server status and update the channels
+	// Finally, get the server status and update the channels
+    // This will overwrite the placeholder text we inserted above
 	const serverStatus = await getServerStatus(server);
 	const channels = [
 		{ object: await interaction.guild.channels.cache.get(server.statusId), type: 'status' },

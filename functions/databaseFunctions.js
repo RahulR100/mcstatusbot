@@ -2,6 +2,8 @@
 import mongoose from 'mongoose';
 import { beaver } from './consoleLogging.js';
 
+// Schema for a server in a guild
+// If a new entry is created, it must have required = false, and a default value to ensure backwards compatibility
 const server = mongoose.Schema({
 	ip: { type: String, required: true },
 	categoryId: { type: String, required: true },
@@ -14,6 +16,7 @@ const server = mongoose.Schema({
 	offlineIndicator: { type: String, required: false, default: 'Offline' }
 });
 
+// Schema for a guild
 const guild = mongoose.Schema({
 	guildId: { type: String, required: true },
 	ephemeral: { type: Boolean, required: false, default: true },
@@ -27,6 +30,7 @@ function databaseError(error) {
 }
 
 // Guild level functions
+// Create a new guild entry in the database when the bot is added to a guild
 function createGuild(key, servers) {
 	const guild = new Guild({
 		guildId: key,
@@ -35,6 +39,7 @@ function createGuild(key, servers) {
 	guild.save();
 }
 
+// Get whether the bot should use ephemeral messages in this guild
 export async function getEphemeral(key) {
 	return Guild.findOne({ guildId: key })
 		.exec()
@@ -47,6 +52,7 @@ export async function getEphemeral(key) {
 		.catch(databaseError);
 }
 
+// Set whether the bot should use ephemeral messages in this guild
 export async function setEphemeral(key, ephemeral) {
 	Guild.findOne({ guildId: key })
 		.exec()
@@ -59,6 +65,7 @@ export async function setEphemeral(key, ephemeral) {
 		.catch(databaseError);
 }
 
+// Get the list of monitored servers for a guild
 export async function getServers(key) {
 	return Guild.findOne({ guildId: key })
 		.exec()
@@ -71,6 +78,7 @@ export async function getServers(key) {
 		.catch(databaseError);
 }
 
+// Add a server to the list of monitored servers for a guild
 export async function addServer(key, server) {
 	Guild.findOne({ guildId: key })
 		.exec()
@@ -85,6 +93,8 @@ export async function addServer(key, server) {
 		.catch(databaseError);
 }
 
+// Set the list of monitored servers for a guild
+// Warning: This will overwrite the entire list of monitored servers for the guild!
 export async function setServers(key, servers) {
 	Guild.findOne({ guildId: key })
 		.exec()
@@ -99,6 +109,7 @@ export async function setServers(key, servers) {
 		.catch(databaseError);
 }
 
+// Get the number of monitored servers for a guild
 export async function numberOfServers(key) {
 	return Guild.findOne({ guildId: key })
 		.exec()
@@ -111,6 +122,7 @@ export async function numberOfServers(key) {
 		.catch(databaseError);
 }
 
+// Delete a server from the list of monitored servers for a guild
 export async function deleteServer(key, server) {
 	Guild.findOne({ guildId: key })
 		.exec()
@@ -123,6 +135,7 @@ export async function deleteServer(key, server) {
 		.catch(databaseError);
 }
 
+// Delete multiple servers from the list of monitored servers for a guild
 export async function deleteServers(key, servers) {
 	const serverIPs = servers.map((s) => s.ip);
 
@@ -137,11 +150,14 @@ export async function deleteServers(key, servers) {
 		.catch(databaseError);
 }
 
+// Delete an entire guild and all its monitored servers
+// This should only be used when the bot is removed from a guild
 export async function deleteGuild(key) {
 	Guild.findOneAndDelete({ guildId: key }).exec().catch(databaseError);
 }
 
 // Server level functions
+// Get the online and offline indicators for a server in a guild
 export async function getIndicators(key, server) {
 	return Guild.findOne({ guildId: key })
 		.exec()
@@ -157,6 +173,7 @@ export async function getIndicators(key, server) {
 		.catch(databaseError);
 }
 
+// Set the online indicator for a server in a guild
 export async function setOnlineIndicator(key, server, onlineIndicator) {
 	Guild.findOne({ guildId: key })
 		.exec()
@@ -172,6 +189,7 @@ export async function setOnlineIndicator(key, server, onlineIndicator) {
 		.catch(databaseError);
 }
 
+// Set the offline indicator for a server in a guild
 export async function setOfflineIndicator(key, server, offlineIndicator) {
 	Guild.findOne({ guildId: key })
 		.exec()
@@ -183,6 +201,17 @@ export async function setOfflineIndicator(key, server, offlineIndicator) {
 					guild.save();
 				}
 			}
+		})
+		.catch(databaseError);
+}
+
+// Global functions
+// Get the total number of monitored servers across all guilds
+export async function getTotalMonitoredServers() {
+	return Guild.find()
+		.exec()
+		.then((guilds) => {
+			return guilds.reduce((total, guild) => total + (guild.servers ? guild.servers.length : 0), 0);
 		})
 		.catch(databaseError);
 }

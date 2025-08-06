@@ -1,7 +1,11 @@
 'use strict';
 import { beaver } from './consoleLogging.js';
 
+// Log an error when renaming channels
 function errorHandler(error, message) {
+	// Temporarily ignore rate limit and missing permissions errors to prevent log spam
+	// Rate limit errors should be rare, but should also take care of themselves as the bot retries requests
+	// Missing permissions cannot be fixed on our end, as they should be handled by server admins
 	if (!error.name.includes('RateLimitError') && !error.message.includes('Missing Permissions')) {
 		beaver.log(
 			'rename-channels',
@@ -15,9 +19,12 @@ function errorHandler(error, message) {
 	}
 }
 
+// Rename the channels based on the server status
+// By default we assume high priority - this value only affects legacy proxies
 export async function renameChannels(channels, serverStatus, indicators, priority = 'high_priority', serverError = null) {
 	let channelNames;
 
+	// If there is a server error (one that we want to display to the user), show that instead of the status
 	if (serverError) {
 		channelNames = {
 			status: 'Status: Error',
@@ -30,22 +37,26 @@ export async function renameChannels(channels, serverStatus, indicators, priorit
 		};
 	}
 
+	// Begin channel update loop
 	await Promise.allSettled(
 		channels.map(async (channel) => {
 			try {
+				// If we dont have a channel object (it was deleted, we cannot access it, etc.)
+				// Of if the name of the channel is already the same value as what we have, skip it
+				// This prevents unnecessary API calls and potential rate limits
+				// TODO: Move handle this with DB
 				if (!channel.object || channelNames[channel.type] == channel.object.name) return;
 
+				// Rename the channel
 				await channel.object.setName(channelNames[channel.type], priority);
 
+				// Set the player channel visibility to null (handled by Discord permission model)
+				// This is a legacy setting that shows hidden channels, even if the server is offline
+				// We used to change this based on the server status, but we will stop doing this to avoid extra network requests
+				// TODO: Remove this by EOY 2025
 				if (channel.type == 'players') {
 					try {
-						await channel.object.permissionOverwrites.edit(
-							channel.object.guild.roles.everyone,
-							{
-								ViewChannel: serverStatus.online ? null : false
-							},
-							{ reason: priority }
-						);
+						await channel.object.permissionOverwrites.edit(channel.object.guild.roles.everyone, { ViewChannel: null }, { reason: priority });
 					} catch (error) {
 						errorHandler(error, 'Error changing channel visibility while updating server status');
 					}

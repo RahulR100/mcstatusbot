@@ -5,6 +5,8 @@ import { getServers, setServers } from '../functions/databaseFunctions.js';
 import { findServer, findServerIndex } from '../functions/findServer.js';
 import { isNotMonitored } from '../functions/inputValidation.js';
 
+// Despite its name, this event updates the category name
+// It is used for setting nicknames
 export const name = Events.ChannelUpdate;
 export const once = false;
 

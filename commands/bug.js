@@ -3,6 +3,9 @@ import { SlashCommandBuilder } from 'discord.js';
 import { sendMessage } from '../functions/sendMessage.js';
 import { descriptionLocalizations, messageLocalizations, nameLocalizations } from '../localizations/bug.js';
 
+// Command to print the github repo to open an issue
+// This used to connect to github directly but due to spam, that service was removed
+
 // prettier-ignore
 export const data = new SlashCommandBuilder()
 	.setName('bug')

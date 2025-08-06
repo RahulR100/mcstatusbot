@@ -10,6 +10,10 @@ import {
 	updatedLocalizations
 } from '../localizations/ephemeral.js';
 
+// Command to enable or disable ephemeral responses
+// This will allow everyone to view responses when someone uses a bot command
+// Note: This is a guild-wide setting. If effects all interactions with the bot
+
 // prettier-ignore
 export const data = new SlashCommandBuilder()
     .setName('ephemeral')
@@ -25,6 +29,8 @@ export const data = new SlashCommandBuilder()
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setContexts([InteractionContextType.Guild]);
 
+// Get the input value and update our database
+// This setting will then take effect on the next interaction with the bot
 export async function execute(interaction) {
 	const ephemeral = interaction.options.getBoolean('enabled');
 

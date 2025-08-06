@@ -17,6 +17,8 @@ import {
 	serverOptionLocalizations
 } from '../localizations/indicators.js';
 
+// Command to change online/offline indicators for a server
+
 // prettier-ignore
 export const data = new SlashCommandBuilder()
     .setName('indicators')
@@ -45,11 +47,14 @@ export const data = new SlashCommandBuilder()
     .setContexts([InteractionContextType.Guild]);
 
 export async function execute(interaction) {
+    // If no servers are monitored, then this command is moot so return
 	if (await noMonitoredServers(interaction.guildId, interaction)) return;
 
+    // Get the indicators from input
 	const onlineIndicator = interaction.options.getString('online');
 	const offlineIndicator = interaction.options.getString('offline');
 
+    // If none were provided then we cannot continue
 	if (!onlineIndicator && !offlineIndicator) {
 		await sendMessage(interaction, 'No indicators were provided! We will retain default indicators.');
 		return;
@@ -59,9 +64,11 @@ export async function execute(interaction) {
 	if (onlineIndicator && !(await isValidIndicator(onlineIndicator, interaction))) return;
 	if (offlineIndicator && !(await isValidIndicator(offlineIndicator, interaction))) return;
 
+    // If the user wants to set these indicators for all servers
 	if (interaction.options.getString('server') == 'all') {
 		let monitoredServers = await getServers(interaction.guild.id);
 
+        // We loop through all monitored servers
 		await Promise.allSettled(
 			monitoredServers.map(async (server) => {
 				if (onlineIndicator) {
@@ -87,13 +94,17 @@ export async function execute(interaction) {
 		return;
 	}
 
+    // Else we create a server object
 	let server;
 
 	// Find the server to rename
 	if (interaction.options.getString('server')) {
 		server = await findServer(interaction.options.getString('server'), ['ip', 'nickname'], interaction.guildId);
-		if (await isNotMonitored(server, interaction)) return;
+		// If the server provided is not monitored then return
+        // A server must first be monitored before trying to configure it
+        if (await isNotMonitored(server, interaction)) return;
 	} else {
+        // Or fallback to the default server
 		server = await findDefaultServer(interaction.guildId);
 	}
 
@@ -107,6 +118,7 @@ export async function execute(interaction) {
 
 	const localization = serverIndicatorsUpdatedLocalizations[interaction.locale];
 
+    // Send success message
 	if (localization) {
 		await sendMessage(interaction, `${localization[1]} ${interaction.options.getString('server')}. ${localization[2]}`);
 	} else {

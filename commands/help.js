@@ -3,6 +3,8 @@ import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { embedColor } from '../functions/sendMessage.js';
 import { commandTitleLocalizations, descriptionLocalizations, listLocalizations, nameLocalizations } from '../localizations/help.js';
 
+// Command to receive help instructions
+
 // prettier-ignore
 export const data = new SlashCommandBuilder()
 	.setName('help')

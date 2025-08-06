@@ -6,6 +6,10 @@ import { readdirSync } from 'node:fs';
 import { beaver } from './consoleLogging.js';
 import { pathToFileURL } from 'node:url';
 
+// Deploy all commands to Discord
+// This standalone function reads all command files from the commands directory and registers them with Discord
+// This should only every be run manually when commands are added/removed/changed
+// It should NEVER be run on bot startup or internally by the bot
 export async function deployCommands() {
 	const commands = [];
 	const commandsPath = path.resolve(process.cwd(), './commands');

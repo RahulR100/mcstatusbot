@@ -17,6 +17,8 @@ import {
 	successMessageLocalizations
 } from '../localizations/nickname.js';
 
+// Command to set the nickname of a server
+
 // prettier-ignore
 export const data = new SlashCommandBuilder()
 	.setName('nickname')
@@ -39,12 +41,16 @@ export const data = new SlashCommandBuilder()
     .setContexts([InteractionContextType.Guild]);
 
 export async function execute(interaction) {
+    // If there are no monitored servers, or the nickname is already used, we stop execution
+    // Nicknames MUST be unique (within the guild) since they can also be used as a search parameter
 	if (await noMonitoredServers(interaction.guildId, interaction)) return;
 	if (await isNicknameUsed(interaction.options.getString('nickname'), interaction.guildId, interaction)) return;
 
+    // Create server object
 	let server;
 
-	// Find the server to rename
+	// If the server is provided, use that
+    // Else use the default server
 	if (interaction.options.getString('server')) {
 		server = await findServer(interaction.options.getString('server'), ['ip', 'nickname'], interaction.guildId);
 		if (await isNotMonitored(server, interaction)) return;
@@ -52,6 +58,8 @@ export async function execute(interaction) {
 		server = await findDefaultServer(interaction.guildId);
 	}
 
+    // Check the bots permissions on the category
+    // If there are missing permissions, the rename will fail so we stop here to prevent state mismatch between discord and our database
 	if (await isMissingPermissions('category', interaction.guild.channels.cache.get(server.categoryId), interaction)) return;
 
 	// Rename the server category
@@ -59,6 +67,10 @@ export async function execute(interaction) {
 		let channel = await interaction.guild.channels.cache.get(server.categoryId);
 		await channel?.setName(interaction.options.getString('nickname'));
 	} catch (error) {
+        // This is one of the few cases we want to send a rate limit error to the user
+        // Categories can only be changed twice in 10 minutes
+        // If the user tries to change it more than twice we let them know that they need to wait instead of silently failing and hitting more rate limits
+        // This cannot be achieved using cooldowns
 		if (error.name.includes('RateLimitError')) {
 			await sendMessage(
 				interaction,
@@ -80,6 +92,7 @@ export async function execute(interaction) {
 		return;
 	}
 
+    // We also let the user know that there is a delay between us submitting a request to discord, and the change appearing
 	await sendMessage(
 		interaction,
 		successMessageLocalizations[interaction.locale] ??

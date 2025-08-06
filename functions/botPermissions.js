@@ -2,6 +2,8 @@
 import { needsPermissionsLocalizations } from '../localizations/botPermissions.js';
 import { sendMessage } from './sendMessage.js';
 
+// The permissions that the bot needs to function properly
+// DO NOT EDIT THIS UNLESS YOU KNOW WHAT YOU ARE DOING
 const requiredPermissions = [
 	{ flag: 'ViewChannel', category: 'View Channels', channel: 'View Channel', server: 'View Channels' },
 	{ flag: 'ManageChannels', category: 'Manage Channels', channel: 'Manage Channel', server: 'Manage Channels' },
@@ -9,6 +11,8 @@ const requiredPermissions = [
 	{ flag: 'Connect', category: 'Connect', channel: 'Connect', server: 'Connect' }
 ];
 
+// Check if the bot is missing any required permissions in a channel or server
+// This should only happen if the server admins have changed the bot's permissions
 export async function isMissingPermissions(type, object, interaction) {
 	if (!object) return false;
 
@@ -33,6 +37,7 @@ export async function isMissingPermissions(type, object, interaction) {
 	return false;
 }
 
+// Get a human readable list of missing permissions in a channel or server
 export function getMissingPermissions(type, object) {
 	type = type.toLowerCase();
 	const basicType = type == 'status channel' || type == 'players channel' ? 'channel' : type;

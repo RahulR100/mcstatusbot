@@ -18,6 +18,8 @@ import {
 	unmonitoringErrorLocalizations
 } from '../localizations/unmonitor.js';
 
+// Command to unmonitor a server
+
 // prettier-ignore
 export const data = new SlashCommandBuilder()
 	.setName('unmonitor')
@@ -34,14 +36,19 @@ export const data = new SlashCommandBuilder()
 	.setContexts(InteractionContextType.Guild);
 
 export async function execute(interaction) {
+	// If there are no monitored servers, or no server is specified, there is nothing to unmonitor
 	if (await noMonitoredServers(interaction.guildId, interaction)) return;
 	if (await isServerUnspecified(interaction.options.getString('server'), interaction.guildId, interaction)) return;
 
 	// Unmonitor all servers if specified
 	if (interaction.options.getString('server') == 'all') {
+		// Keep track of any channels that were unable to be deleted
 		let notUnmonitored = [];
 		let notDeleted = [];
+
+		// Get all the monitored servers
 		let monitoredServers = await getServers(interaction.guild.id);
+
 		await Promise.allSettled(
 			monitoredServers.map(async (server) => {
 				// Check if the bot has the required permissions'
@@ -65,6 +72,8 @@ export async function execute(interaction) {
 						}
 					})
 				).catch(() => (missingPermissions = true));
+
+				// If permissions are missing, we cannot reliably delete the channels so we do not continue
 				if (missingPermissions) return;
 
 				try {
@@ -74,9 +83,13 @@ export async function execute(interaction) {
 				}
 			})
 		);
+
+		// Create a list of the servers that were unmonitored
 		const unmonitoredServers = monitoredServers.filter((server1) => !notUnmonitored.some((server2) => server1.ip == server2.ip));
+		// Delete these servers from our database
 		deleteServers(interaction.guildId, unmonitoredServers);
 
+		// Send errors to the user incase some channels were not deleted
 		if (!notUnmonitored.length && !notDeleted.length) {
 			await sendMessage(interaction, successMessageLocalizations[interaction.locale] ?? 'The server has successfully been unmonitored.');
 		} else {
@@ -110,8 +123,11 @@ export async function execute(interaction) {
 		return;
 	}
 
+	// Here we want to unmonitor a specific server (not all)
 	let server;
 
+	// Get the IP or nickname of the server to unmonitor
+	// Also check that we are actually monitoring that server
 	if (interaction.options.getString('server')) {
 		server = await findServer(interaction.options.getString('server'), ['ip', 'nickname'], interaction.guildId);
 		if (await isNotMonitored(server, interaction)) return;
@@ -119,6 +135,7 @@ export async function execute(interaction) {
 		server = await findDefaultServer(interaction.guildId);
 	}
 
+	// Make sure we are not removing the default server
 	if (await removingDefaultServer(server, interaction.guildId, interaction)) return;
 
 	// Check if the bot has the required permissions
@@ -133,9 +150,11 @@ export async function execute(interaction) {
 			if (await isMissingPermissions(channel.type, interaction.guild.channels.cache.get(channel.id), interaction)) throw new Error();
 		})
 	).catch(() => (missingPermissions = true));
+
+	// Again, if permissions are missing we cannot continue
 	if (missingPermissions) return;
 
-	// Unmonitor the server
+	// Remove the server from the database
 	try {
 		await deleteServer(interaction.guildId, server);
 	} catch {
@@ -155,6 +174,7 @@ export async function execute(interaction) {
 		return;
 	}
 
+	// Remove the channels from discord
 	try {
 		await removeChannels(server, interaction.guild);
 	} catch (error) {
@@ -168,13 +188,16 @@ export async function execute(interaction) {
 	await sendMessage(interaction, successMessageLocalizations[interaction.locale] ?? 'The server has successfully been unmonitored.');
 }
 
+// Function to remove a channels from a discord server
 async function removeChannels(server, guild) {
+	// Get the channels (and category) for the monitored server in discord
 	const channels = [
 		await guild.channels.cache.get(server.statusId),
 		await guild.channels.cache.get(server.playersId),
 		await guild.channels.cache.get(server.categoryId)
 	];
 
+	// Try deleting all of them, catch any errors
 	await Promise.allSettled(
 		channels.map(async (channel) => {
 			try {
