@@ -5,8 +5,7 @@
 
 # Minecraft Server Status - Discord Bot
 
-A simple [Discord.js](https://www.npmjs.com/package/discord.js) bot that displays the status of [Minecraft](https://minecraft.gamepedia.com) servers using the
-[mcstatus.io](https://mcstatus.io/) library.
+A simple [Discord.js](https://www.npmjs.com/package/discord.js) bot that displays the status of [Minecraft](https://minecraft.gamepedia.com) servers.
 
 **To use:** Simply [invite](https://discord.com/api/oauth2/authorize?client_id=788083161296273517&permissions=269485072&scope=bot%20applications.commands) the
 bot to your server.
@@ -17,21 +16,16 @@ bot to your server.
 
 **Join our Discord Server!** [Here](https://discord.gg/FVuSmQx5tJ)
 
-## Mar 2025 - Feature Update
+## Summer 2025 Update Part 1 Release
 
-- Customise online/offline indicators for each server!
-- Add ability to enable/disable ephemeral messages
-- Correction of cooldown duration display bug
-- New languages: 🇩🇰 🇪🇸
+Due to the sheer size of this update I have split it into 3 parts. Parts 2 and 3 will follow in the coming weeks.
+Part 1 is a more technical update, and lays the groundwork for future feature updates.
 
-## Mar 2025 - Technical Update
-
-- Updates to bot configuration
-- New proxy for all Discord requests!
-- Package updates on server
-- Router configuration update for improved security
-- Add secondary ping server to improve network load handling
-- Code update to align with RFC1918 standards (Private IPs can no longer be monitored. Your bot must be publicly accessible in order for the bot to reach it)
+- We have a brand new server! Now with 5x the cores and 2x the RAM
+- Version 2 of the proxy is now in use. This should make all commands to the bot much faster
+- A new custom ping server is also implemented, moving away from older libraries. This allows
+- New DNS services are now implemented which should fix the server online -> offline -> online flicker bug
+- The bot now runs using the new Docker version. This means all internal build pipelines are working well and this Docker version will be ready for yall to use soon
 
 As usual, please open an issue here if you notice any bugs/abnormal behaviour. Thank you!
 
