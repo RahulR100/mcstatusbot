@@ -1,17 +1,13 @@
-# Use an official Node.js runtime as a parent image
-FROM node:22-alpine
-
-# Set the working directory in the container
+# Builder stage
+FROM node:22-alpine as builder
+RUN apk add --no-cache --virtual .gyp python3 make g++
 WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json to the container
 COPY package*.json ./
-
-# Install dependencies
 RUN npm install
 
-# Copy the rest of the application source code to the container
+# Final stage
+FROM node:22-alpine
+WORKDIR /usr/src/app
+COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY . .
-
-# Command to run the application
 CMD ["node", "index.js"]
