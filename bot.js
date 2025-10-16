@@ -1,6 +1,6 @@
 'use strict';
 import 'dotenv/config';
-import { ClusterClient, getInfo } from 'discord-hybrid-sharding';
+import { AutoResharderClusterClient, ClusterClient, getInfo } from 'discord-hybrid-sharding';
 import { ActivityType, Client, Collection, GatewayIntentBits } from 'discord.js';
 import mongoose from 'mongoose';
 import { readdirSync } from 'node:fs';
@@ -53,6 +53,15 @@ client.cluster = new ClusterClient(client);
 client.cooldowns = new Collection();
 client.commands = new Collection();
 
+client.on("clientReady", (readyClient) => {
+    readyClient.cluster.triggerReady();
+})
+
+client.on('error', (msg) => beaver.log('client', msg));
+
+// Add autoresharder client
+new AutoResharderClusterClient(client.cluster)
+
 // Check if the client AND cluster are ready before initializing commands and events
 let clientReady = false;
 let clusterReady = false;
@@ -66,8 +75,6 @@ client.once('ready', async () => {
 	clientReady = true;
 	if (clusterReady) init();
 });
-
-client.on('error', (msg) => beaver.log('client', msg));
 
 // Finally, login
 client.login(process.env.TOKEN);
@@ -118,8 +125,8 @@ async function init() {
 	setTimeout(() => setInterval(updateServers, interval, client), client.cluster.id * 1000);
 
 	// Update shard status in delegate
-    // DISABLED FOR SELF HOSTED
-	// if (process.env.NODE_ENV == 'production') {
-	// 	setInterval(() => updateDelegate(client), 15 * 60 * 1000);
-	// }
+    // MODIFIED FOR SELF HOSTED
+	if (process.env.NODE_ENV == 'production') {
+		setInterval(() => updateDelegate(client), 15 * 60 * 1000);
+	}
 }
