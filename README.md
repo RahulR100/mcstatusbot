@@ -9,14 +9,13 @@
 A simple [Discord.js](https://www.npmjs.com/package/discord.js) bot that displays the status of [Minecraft](https://minecraft.gamepedia.com) servers.
 
 **To use:** Simply [invite](https://discord.com/api/oauth2/authorize?client_id=788083161296273517&permissions=269485072&scope=bot%20applications.commands) the
-bot to your server.
+bot to your server, or [host your own instance](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md).
 
 **Having trouble?** Check out the [FAQ](https://github.com/RahulR100/mcstatusbot/issues/154) or [open an issue](https://github.com/RahulR100/mcstatusbot/issues/new).
 
 **Want to contribute a translation?** Read the [contributing guide](https://github.com/RahulR100/mcstatusbot/blob/main/CONTRIBUTING.md) here.
 
-**Join our Discord Server!** [Here](https://discord.gg/FVuSmQx5tJ)
-
+**Join our Discord Server!** [Here](https://discord.gg/FVuSmQx5tJ).
 ## Fall 2025: Self hosted verion release!
 
 The self-hosted version of the bot is now available for use! Read the [self host guide](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md) for installation and usage.
