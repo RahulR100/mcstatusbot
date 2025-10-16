@@ -8,6 +8,7 @@ import path, { basename } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { beaver } from './functions/consoleLogging.js';
 import { updateServers } from './functions/updateServers.js';
+import { updateDelegate } from './functions/updateDelegate.js';
 import { getTotalMonitoredServers } from './functions/databaseFunctions.js';
 
 // Catch all errors that occur during the shard initialization
@@ -125,8 +126,8 @@ async function init() {
 	setTimeout(() => setInterval(updateServers, interval, client), client.cluster.id * 1000);
 
 	// Update shard status in delegate
-    // MODIFIED FOR SELF HOSTED
-	if (process.env.NODE_ENV == 'production') {
-		setInterval(() => updateDelegate(client), 15 * 60 * 1000);
-	}
+    // DISABLED FOR SELF HOSTED (will be re-activated in future update)
+	// if (process.env.NODE_ENV == 'production') {
+	// 	setInterval(() => updateDelegate(client), 15 * 60 * 1000);
+	// }
 }
