@@ -5,7 +5,7 @@ import { beaver } from './functions/consoleLogging.js';
 
 // The number of shards to use per cluster
 // Higher values save memory but put more pressure on the thread
-const shardsPerClusters = parseInt(process.env.SPC);
+const shardsPerClusters = parseInt(process.env.SPC || 4);
 
 // Create the cluster manager
 // Spawns instances of shards specified in bot.js

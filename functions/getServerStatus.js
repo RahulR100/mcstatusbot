@@ -5,7 +5,7 @@ import unidecode from 'unidecode';
 import { validateHost } from './validateHost.js';
 
 // Endpoint for the ping server
-const ping_server = process.env.PING_URL;
+const ping_server = process.env.PING_URL || "http://mcpingserver:8000";
 
 export async function getServerStatus(server, priority = 'high_priority') {
 	// Ensure we have a valid server to avoid pinging invalid servers

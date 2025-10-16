@@ -20,7 +20,7 @@ mongoose.set('debug', false);
 
 // Connect to the database
 try {
-	await mongoose.connect(process.env.DATABASE_URL, { dbName: process.env.DATABASE_NAME });
+	await mongoose.connect(process.env.DATABASE_URL, { dbName: process.env.DATABASE_NAME || "mcstatusbot" });
 } catch (error) {
 	beaver.log('database', error);
 	spoolErrors = true;
@@ -30,7 +30,7 @@ try {
 // We user totalGuids / 50 because 50 is the maximum number of requests we can make per second to discord.
 // A buffer (usually 60s) is added as an extra precaution to avoid hitting rate limits.
 const totalGuilds = await getTotalMonitoredServers();
-const interval = Math.round(Math.max(6 * 60 * 1000, (totalGuilds / 50 + parseInt(process.env.BUFFER)) * 1000));
+const interval = Math.round(Math.max(6 * 60 * 1000, (totalGuilds / 50 + parseInt(process.env.BUFFER || 60)) * 1000));
 
 // Define client options
 let clientOptions = {
