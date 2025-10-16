@@ -2,7 +2,7 @@
 ![Discord Server Count](https://img.shields.io/endpoint?url=https%3A%2F%2Fmcstatusbot-delegate-production.up.railway.app%2Fcount%2FgetFormatted)
 [![Visit our website](https://img.shields.io/static/v1?label=&message=Website&color=purple)](https://mcstatusbot.com/)
 [![Join our Discord Server](https://img.shields.io/static/v1?label=&message=Join%20Our%20Discord%20Server&color=blue)](https://discord.gg/FVuSmQx5tJ)
-[![Host your own](https://img.shields.io/static/v1?label=&message=Host%20Your%20Own%20Instance&color=red)](https://github.com/RahulR100/mcstatusbot/blob/main/CONTRIBUTING.md)
+[![Host your own](https://img.shields.io/static/v1?label=&message=Host%20Your%20Own%20Instance&color=red)](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md)
 
 # Minecraft Server Status - Discord Bot
 
@@ -19,7 +19,7 @@ bot to your server.
 
 ## Fall 2025: Self hosted verion release!
 
-The self-hosted version of the bot is now available for use! Read the [self host guide](https://github.com/RahulR100/mcstatusbot/blob/main/CONTRIBUTING.md) for installation and usage.
+The self-hosted version of the bot is now available for use! Read the [self host guide](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md) for installation and usage.
 
 Other updates:
 - Package and server software updates
