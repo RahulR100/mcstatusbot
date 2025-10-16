@@ -20,7 +20,7 @@ mongoose.set('debug', false);
 
 // Connect to the database
 try {
-	await mongoose.connect(process.env.DATABASE_URL, { dbName: process.env.DATABASE_NAME || "mcstatusbot" });
+	await mongoose.connect(process.env.DATABASE_URL || "mongodb://mongodb:27017", { dbName: process.env.DATABASE_NAME || "mcstatusbot" });
 } catch (error) {
 	beaver.log('database', error);
 	spoolErrors = true;
