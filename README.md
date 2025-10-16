@@ -2,6 +2,7 @@
 ![Discord Server Count](https://img.shields.io/endpoint?url=https%3A%2F%2Fmcstatusbot-delegate-production.up.railway.app%2Fcount%2FgetFormatted)
 [![Visit our website](https://img.shields.io/static/v1?label=&message=Website&color=purple)](https://mcstatusbot.com/)
 [![Join our Discord Server](https://img.shields.io/static/v1?label=&message=Join%20Our%20Discord%20Server&color=blue)](https://discord.gg/FVuSmQx5tJ)
+[![Host your own](https://img.shields.io/static/v1?label=&message=Host%20Your%20Own%20Instance&color=red)](https://github.com/RahulR100/mcstatusbot/blob/main/CONTRIBUTING.md)
 
 # Minecraft Server Status - Discord Bot
 
@@ -12,20 +13,17 @@ bot to your server.
 
 **Having trouble?** Check out the [FAQ](https://github.com/RahulR100/mcstatusbot/issues/154) or [open an issue](https://github.com/RahulR100/mcstatusbot/issues/new).
 
-**Want to contribute a translation?** Read the [contributing guide](https://github.com/tedztar/mcstatusbot/blob/V0.2/CONTRIBUTING.md) here.
+**Want to contribute a translation?** Read the [contributing guide](https://github.com/RahulR100/mcstatusbot/blob/main/CONTRIBUTING.md) here.
 
 **Join our Discord Server!** [Here](https://discord.gg/FVuSmQx5tJ)
 
-## Summer 2025 Update Part 1 Release
+## Fall 2025: Self hosted verion release!
 
-Due to the sheer size of this update I have split it into 3 parts. Parts 2 and 3 will follow in the coming weeks.
-Part 1 is a more technical update, and lays the groundwork for future feature updates.
+The self-hosted version of the bot is now available for use! Read the [self host guide](https://github.com/RahulR100/mcstatusbot/blob/main/CONTRIBUTING.md) for installation and usage.
 
-- We have a brand new server! Now with 5x the cores and 2x the RAM
-- Version 2 of the proxy is now in use. This should make all commands to the bot much faster
-- A new custom ping server is also implemented, moving away from older libraries.
-- New DNS services are now implemented which should fix the server online -> offline -> online flicker bug
-- The bot now runs using the new Docker version. This means all internal build pipelines are working well and this Docker version will be ready for yall to use soon
+Other updates:
+- Package and server software updates
+- General bugfixes
 
 As usual, please open an issue here if you notice any bugs/abnormal behaviour. Thank you!
 
@@ -82,12 +80,12 @@ As usual, please open an issue here if you notice any bugs/abnormal behaviour. T
 
 - [ ] Add server list command (basic management interface)
 - [ ] Add option to monitor server with message embed instead of voice channels
-- [ ] Docker version for self host uses
 - [ ] Server offline notifications in channel
 - [ ] Rewrite backend api to support ipc and new federation system
 - [ ] Rework monitor and nickname commands to include modal workflow
 - [ ] Link Discord usernames to Minecraft accounts for player list in status command (see [this](https://github.com/dommilosz/minecraft-auth) repository)
 - [ ] Add graph support (see [this](https://github.com/cappig/MC-status-bot) repository)
+- [x] Docker version for self host uses
 - [x] Rework status, nickname, and unmonitor commands to include dropdown menus
 - [x] Allow disabling of ephemeral messages
 - [x] ~~Minecraft plugin to allow monitoring of local servers~~ Use [Playit](https://playit.gg/)
