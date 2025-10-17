@@ -43,11 +43,7 @@ export async function updateServers(client) {
 							handleUpdateError(error, server.ip, guild.id);
 						}
 					}
-
-					// If we have neither a status nor an error, don't update anything
-					// This should never happen unless the whole internal network is down, but just in case
-					if (!serverStatus && !serverError) return;
-
+                    
 					// Get the channels to rename
 					const channels = [
 						{ object: await guild.channels.cache.get(server.statusId), type: 'status' },

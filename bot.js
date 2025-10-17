@@ -42,10 +42,9 @@ let clientOptions = {
 
 // If we're in production, we set the rest API to use the proxy URL and set the interval.
 // Setting this separately allows us to test the bot locally without needing to set up a proxy server.
-// DISABLED FOR SELF HOSTED
-// if (process.env.NODE_ENV == 'production') {
-// 	clientOptions.rest = { api: `${process.env.PROXY_URL}/api`, globalRequestsPerSecond: Infinity, timeout: interval };
-// }
+if (process.env.PROXY_URL) {
+	clientOptions.rest = { api: `${process.env.PROXY_URL}/api`, globalRequestsPerSecond: Infinity, timeout: interval };
+}
 
 // Create the client instance, and new collections for commands and command cooldowns
 export let client = new Client(clientOptions);
@@ -126,7 +125,7 @@ async function init() {
 	setTimeout(() => setInterval(updateServers, interval, client), client.cluster.id * 1000);
 
 	// Update shard status in delegate
-    // DISABLED FOR SELF HOSTED (will be re-activated in future update)
+    // TEMP DISABLED FOR SELF HOSTED (will be re-activated in future update)
 	// if (process.env.NODE_ENV == 'production') {
 	// 	setInterval(() => updateDelegate(client), 15 * 60 * 1000);
 	// }

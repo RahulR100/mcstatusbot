@@ -31,10 +31,19 @@ export async function renameChannels(channels, serverStatus, indicators, priorit
 			players: `${serverError}`
 		};
 	} else {
-		channelNames = {
-			status: serverStatus.online ? `Status: ${indicators.onlineIndicator}` : `Status: ${indicators.offlineIndicator}`,
-			players: `Players: ${serverStatus.current_players} / ${serverStatus.max_players}`
-		};
+        if (serverStatus) {
+            // Server is online
+            channelNames = {
+                status: `Status: ${indicators.onlineIndicator}`,
+                players: `Players: ${serverStatus.players.online} / ${serverStatus.players.max}`
+            };
+        } else {
+            // Server is offline
+            channelNames = {
+                status: `Status: ${indicators.offlineIndicator}`,
+                players: `Players: 0`
+            };
+        }
 	}
 
 	// Begin channel update loop
@@ -49,18 +58,6 @@ export async function renameChannels(channels, serverStatus, indicators, priorit
 
 				// Rename the channel
 				await channel.object.setName(channelNames[channel.type], priority);
-
-				// Set the player channel visibility to null (handled by Discord permission model)
-				// This is a legacy setting that shows hidden channels, even if the server is offline
-				// We used to change this based on the server status, but we will stop doing this to avoid extra network requests
-				// TODO: Remove this by EOY 2025
-				if (channel.type == 'players') {
-					try {
-						await channel.object.permissionOverwrites.edit(channel.object.guild.roles.everyone, { ViewChannel: null }, { reason: priority });
-					} catch (error) {
-						errorHandler(error, 'Error changing channel visibility while updating server status');
-					}
-				}
 			} catch (error) {
 				errorHandler(error, 'Error renaming channels while updating server status');
 			}
