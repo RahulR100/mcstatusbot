@@ -100,7 +100,7 @@ export async function execute(interaction) {
 	}
 
 	// If server is offline, we send a simplified offline message since other parameters won't be available
-	if (!serverStatus.online) {
+	if (!serverStatus) {
 		await sendMessage(
 			interaction,
 			serverOfflineLocalizations[interaction.locale] ?? `*The server is offline!*`,
@@ -114,15 +114,14 @@ export async function execute(interaction) {
 
     // If no one is online, we indicate this in a more human readable manner than 0/x
     // Extra? maybe but it causes no harm
-	if (!serverStatus.current_players) {
+	if (!serverStatus.players.online) {
 		message = noPlayersLocalizations[interaction.locale] ?? `*No one is playing!*`;
 	} else {
-        // If the server returns a player list (only happens if it has query enabled), we want to keep track of it
-        let playerList = serverStatus.player_list || [];
-
         // Add the current playerset to the message.
-		message = `**${serverStatus.current_players}/${serverStatus.max_players}** ${playersOnlineLocalizations[interaction.locale] ?? 'player(s) online.'}`;
-		if (playerList.length) message += `\n\n ${playerList.sort().join(', ')}`;
+		message = `**${serverStatus.players.online}/${serverStatus.players.max}** ${playersOnlineLocalizations[interaction.locale] ?? 'player(s) online.'}`;
+		
+        // If the server returns a sample of players, which only happens if query is enabled, we add it to the message too.
+        if (serverStatus.players.sample.length) message += `\n\n ${serverStatus.players.sample.sort().join(', ')}`;
 	}
 
     // Build the response embed we will send back to discord
@@ -132,13 +131,13 @@ export async function execute(interaction) {
 		.setColor(embedColor)
 		.setDescription(message)
 		.addFields(
-			{ name: MOTDLocalizations[interaction.locale] ?? 'MOTD:', value: serverStatus.stripped_motd || (noMOTDLocalizations[interaction.locale] ?? 'None') },
+			{ name: MOTDLocalizations[interaction.locale] ?? 'MOTD:', value: serverStatus.motd.trim() || (noMOTDLocalizations[interaction.locale] ?? 'None') },
 			{
 				name: serverVersionLocalizations[interaction.locale] ?? 'Server version:',
-				value: serverStatus.version || (noServerVersionLocalizations[interaction.locale] ?? 'Not specified'),
+				value: serverStatus.version.name || (noServerVersionLocalizations[interaction.locale] ?? 'Not specified'),
 				inline: true
 			},
-			{ name: latencyLocalizations[interaction.locale] ?? 'Latency:', value: `${serverStatus.latency} ms`, inline: true }
+			{ name: latencyLocalizations[interaction.locale] ?? 'Latency:', value: `${Math.round(serverStatus.latency)} ms`, inline: true }
 		);
 
 	// Set thumbnail of the embed to server icon
@@ -147,9 +146,9 @@ export async function execute(interaction) {
     // TODO: If no server icon is returned, use the default minecraft server icon
 	let files = [];
 
-	if (serverStatus.favicon_b64) {
+	if (serverStatus.icon) {
         // Extract the image data
-		let iconBuffer = new Buffer.from(serverStatus.favicon_b64.split(',')[1], 'base64');
+		let iconBuffer = new Buffer.from(serverStatus.icon.split(',')[1], 'base64');
         // Convert it into an attachment
 		files.push(new AttachmentBuilder(iconBuffer, { name: 'icon.jpg' }));
         // Add the attachment as the thumbnail

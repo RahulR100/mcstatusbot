@@ -1,6 +1,6 @@
 'use strict';
 import 'dotenv/config';
-import { ClusterClient, getInfo } from 'discord-hybrid-sharding';
+import { AutoResharderClusterClient, ClusterClient, getInfo } from 'discord-hybrid-sharding';
 import { ActivityType, Client, Collection, GatewayIntentBits } from 'discord.js';
 import mongoose from 'mongoose';
 import { readdirSync } from 'node:fs';
@@ -20,7 +20,7 @@ mongoose.set('debug', false);
 
 // Connect to the database
 try {
-	await mongoose.connect(process.env.DATABASE_URL, { dbName: process.env.DATABASE_NAME });
+	await mongoose.connect(process.env.DATABASE_URL || "mongodb://mongodb:27017", { dbName: process.env.DATABASE_NAME || "mcstatusbot" });
 } catch (error) {
 	beaver.log('database', error);
 	spoolErrors = true;
@@ -30,7 +30,7 @@ try {
 // We user totalGuids / 50 because 50 is the maximum number of requests we can make per second to discord.
 // A buffer (usually 60s) is added as an extra precaution to avoid hitting rate limits.
 const totalGuilds = await getTotalMonitoredServers();
-const interval = Math.round(Math.max(6 * 60 * 1000, (totalGuilds / 50 + parseInt(process.env.BUFFER)) * 1000));
+const interval = Math.round(Math.max(6 * 60 * 1000, (totalGuilds / 50 + parseInt(process.env.BUFFER || 60)) * 1000));
 
 // Define client options
 let clientOptions = {
@@ -42,7 +42,7 @@ let clientOptions = {
 
 // If we're in production, we set the rest API to use the proxy URL and set the interval.
 // Setting this separately allows us to test the bot locally without needing to set up a proxy server.
-if (process.env.NODE_ENV == 'production') {
+if (process.env.PROXY_URL) {
 	clientOptions.rest = { api: `${process.env.PROXY_URL}/api`, globalRequestsPerSecond: Infinity, timeout: interval };
 }
 
@@ -52,6 +52,15 @@ export let client = new Client(clientOptions);
 client.cluster = new ClusterClient(client);
 client.cooldowns = new Collection();
 client.commands = new Collection();
+
+client.on("clientReady", (readyClient) => {
+    readyClient.cluster.triggerReady();
+})
+
+client.on('error', (msg) => beaver.log('client', msg));
+
+// Add autoresharder client
+new AutoResharderClusterClient(client.cluster)
 
 // Check if the client AND cluster are ready before initializing commands and events
 let clientReady = false;
@@ -66,8 +75,6 @@ client.once('ready', async () => {
 	clientReady = true;
 	if (clusterReady) init();
 });
-
-client.on('error', (msg) => beaver.log('client', msg));
 
 // Finally, login
 client.login(process.env.TOKEN);
@@ -118,7 +125,8 @@ async function init() {
 	setTimeout(() => setInterval(updateServers, interval, client), client.cluster.id * 1000);
 
 	// Update shard status in delegate
-	if (process.env.NODE_ENV == 'production') {
-		setInterval(() => updateDelegate(client), 15 * 60 * 1000);
-	}
+    // TEMP DISABLED FOR SELF HOSTED (will be re-activated in future update)
+	// if (process.env.NODE_ENV == 'production') {
+	// 	setInterval(() => updateDelegate(client), 15 * 60 * 1000);
+	// }
 }
