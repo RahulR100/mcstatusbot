@@ -1,4 +1,5 @@
 'use strict';
+import 'dotenv/config';
 import unidecode from 'unidecode';
 import validator from 'validator';
 import bogon from 'bogon';
@@ -44,7 +45,7 @@ function validateAddress(ip) {
 		// A bogon is an IP address that should not be routable on the public internet
 		// This includes private IPs and loopback addresses as per RFC1918
 		// WARNING! If you are hosting on a commercial hosting provider, DO NOT REMOVE THIS CHECK! You may get banned!
-		if (bogon(decoded)) {
+		if (process.env.ALLOW_PRIVATE_IPS != "true" && bogon(decoded)) {
 			return { valid: false, reason: 'bogon' };
 		}
 		return { valid: true };
