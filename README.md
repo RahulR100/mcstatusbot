@@ -1,12 +1,15 @@
-[![Invite to Server](https://img.shields.io/static/v1?label=&message=Invite%20to%20Server&color=forestgreen)](https://discord.com/api/oauth2/authorize?client_id=788083161296273517&permissions=269485072&scope=bot%20applications.commands)
-![Discord Server Count](https://img.shields.io/endpoint?url=https%3A%2F%2Fmcstatusbot-delegate-production.up.railway.app%2Fcount%2FgetFormatted)
-[![Visit our website](https://img.shields.io/static/v1?label=&message=Website&color=purple)](https://mcstatusbot.com/)
-[![Join our Discord Server](https://img.shields.io/static/v1?label=&message=Join%20Our%20Discord%20Server&color=blue)](https://discord.gg/FVuSmQx5tJ)
-[![Host your own](https://img.shields.io/static/v1?label=&message=Host%20Your%20Own%20Instance&color=red)](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md)
+<div style="text-align:center">
+<h1>Minecraft Server Status - Discord Bot</h1>
+<p>A simple Discord.js bot that displays the status of Minecraft servers.</p>
 
-# Minecraft Server Status - Discord Bot
+![Discord Server Count](https://img.shields.io/endpoint?url=https%3A%2F%2Fmcstatusbot-delegate-production.up.railway.app%2Fcount%2FgetFormatted&style=for-the-badge)
+[![Invite to Server](https://img.shields.io/static/v1?label=&message=Invite%20to%20Server&color=forestgreen&style=for-the-badge)](https://discord.com/api/oauth2/authorize?client_id=788083161296273517&permissions=269485072&scope=bot%20applications.commands)
 
-A simple [Discord.js](https://www.npmjs.com/package/discord.js) bot that displays the status of [Minecraft](https://minecraft.gamepedia.com) servers.
+[![Visit our website](https://img.shields.io/static/v1?label=&message=Website&color=purple&style=for-the-badge)](https://mcstatusbot.com/)
+[![Join our Discord Server](https://img.shields.io/static/v1?label=&message=Join%20Our%20Discord%20Server&color=blue&style=for-the-badge)](https://discord.gg/FVuSmQx5tJ)
+[![Host your own](https://img.shields.io/static/v1?label=&message=Host%20Your%20Own%20Instance&color=red&style=for-the-badge)](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md)
+</div>
+
 
 **To use:** Simply [invite](https://discord.com/api/oauth2/authorize?client_id=788083161296273517&permissions=269485072&scope=bot%20applications.commands) the
 bot to your server, or [host your own instance](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md).
@@ -15,24 +18,7 @@ bot to your server, or [host your own instance](https://github.com/RahulR100/mcs
 
 **Want to contribute a translation?** Read the [contributing guide](https://github.com/RahulR100/mcstatusbot/blob/main/CONTRIBUTING.md) here.
 
-**Join our Discord Server!** [Here](https://discord.gg/FVuSmQx5tJ).
-## Fall 2025: Self hosted verion release!
-
-The self-hosted version of the bot is now available for use! Read the [self host guide](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md) for installation and usage.
-
-Other updates:
-- Package and server software updates
-- General bugfixes
-
-As usual, please open an issue here if you notice any bugs/abnormal behaviour. Thank you!
-
-### Usage notes:
-
-**Bedrock servers:** to use the `/status` and `/monitor` commands, you must set the `type` option to "Bedrock" for the bot to function correctly.
-
-**Hosting/Proxy users:** Underscores are not allowed in Domain names! Please change your server address to remove underscores.
-
-**Local IP Addresses** The bot will now filter out private IP addresses (192.168, 127.0.0, 10.0 etc) which are inaccessible to the bot. The bot will now show `Status: Error` if your server's IP address has been filtered. We recommend you use a free proxy such as [Minekube](https://connect.minekube.com/) or [Playit](https://playit.gg/) to make your server securely accessible via a domain, and then monitor that domain.
+**Join our Discord Server** [Here!](https://discord.gg/FVuSmQx5tJ)
 
 ## Features
 
@@ -55,7 +41,25 @@ As usual, please open an issue here if you notice any bugs/abnormal behaviour. T
 </tr>
 </table>
 
-## Usage
+## Fall 2025: Self hosted verion release!
+
+The self-hosted version of the bot is now available for use! Read the [self host guide](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md) for installation and usage.
+
+Other updates:
+- Package and server software updates
+- General bugfixes
+
+As usual, please open an issue here if you notice any bugs/abnormal behaviour. Thank you!
+
+## Usage notes
+
+**Bedrock servers:** to use the `/status` and `/monitor` commands, you must set the `type` option to "Bedrock" for the bot to function correctly.
+
+**Hosting/Proxy users:** Underscores are not allowed in Domain names! Please change your server address to remove underscores.
+
+**Local IP Addresses (Cloud hosted only)** The bot will now filter out private IP addresses (192.168, 127.0.0, 10.0 etc) which are inaccessible to the bot. The bot will now show `Status: Error` if your server's IP address has been filtered. We recommend you use a free proxy such as [Minekube](https://connect.minekube.com/) or [Playit](https://playit.gg/) to make your server securely accessible via a domain, and then monitor that domain. This does not apply if you are hosting the bot on your own hardware.
+
+## Commands
 
 `/status [server] [platform]` Displays the current status and active players for any server
 
