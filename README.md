@@ -1,4 +1,4 @@
-<div style="text-align:center">
+<div align="center">
 <h1>Minecraft Server Status - Discord Bot</h1>
 <p>A simple Discord.js bot that displays the status of Minecraft servers.</p>
 
