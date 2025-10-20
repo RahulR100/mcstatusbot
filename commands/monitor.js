@@ -76,10 +76,6 @@ export const data = new SlashCommandBuilder()
     .setContexts([InteractionContextType.Guild]);
 
 export async function execute(interaction) {
-    // TEMP DISABLE
-    await sendMessage(interaction, "Monitoring new servers has been temporarily disabled while we work to fix a bug. Please use the /status command in the meantime. We apologise for the inconvenience", "Monitoring temporarily disabled");
-    return;
-
     // If the bot is missing permissions on the server, stop
 	if (await isMissingPermissions('server', interaction.guild, interaction)) return;
 

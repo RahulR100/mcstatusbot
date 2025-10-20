@@ -36,10 +36,6 @@ export const data = new SlashCommandBuilder()
 	.setContexts(InteractionContextType.Guild);
 
 export async function execute(interaction) {
-    // TEMP DISABLE
-    await sendMessage(interaction, "Unmonitoring servers has been temporarily disabled while we work to fix a bug. Servers will continue to update as normal in the meantime. We apologies for the inconvenience", "Unmonitoring temporarily disabled");
-    return;
-
 	// If there are no monitored servers, or no server is specified, there is nothing to unmonitor
 	if (await noMonitoredServers(interaction.guildId, interaction)) return;
 	if (await isServerUnspecified(interaction.options.getString('server'), interaction.guildId, interaction)) return;
