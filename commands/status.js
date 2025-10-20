@@ -121,7 +121,7 @@ export async function execute(interaction) {
 		message = `**${serverStatus.players.online}/${serverStatus.players.max}** ${playersOnlineLocalizations[interaction.locale] ?? 'player(s) online.'}`;
 		
         // If the server returns a sample of players, which only happens if query is enabled, we add it to the message too.
-        if (serverStatus.players.sample.length) message += `\n\n ${serverStatus.players.sample.sort().join(', ')}`;
+        if (serverStatus.players.sample?.length) message += `\n\n ${serverStatus.players.sample.sort().join(', ')}`;
 	}
 
     // Build the response embed we will send back to discord
