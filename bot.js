@@ -62,19 +62,8 @@ client.on('error', (msg) => beaver.log('client', msg));
 // Add autoresharder client
 new AutoResharderClusterClient(client.cluster)
 
-// Check if the client AND cluster are ready before initializing commands and events
-let clientReady = false;
-let clusterReady = false;
-
-client.cluster.once('ready', async () => {
-	clusterReady = true;
-	if (clientReady) init();
-});
-
-client.once('ready', async () => {
-	clientReady = true;
-	if (clusterReady) init();
-});
+// initialise the shard (once client and cluster are ready)
+client.cluster.on('ready', init);
 
 // Finally, login
 client.login(process.env.TOKEN);
@@ -125,8 +114,7 @@ async function init() {
 	setTimeout(() => setInterval(updateServers, interval, client), client.cluster.id * 1000);
 
 	// Update shard status in delegate
-    // TEMP DISABLED FOR SELF HOSTED (will be re-activated in future update)
-	// if (process.env.NODE_ENV == 'production') {
-	// 	setInterval(() => updateDelegate(client), 15 * 60 * 1000);
-	// }
+	if (process.env.DELEGATE_URL && process.env.DELEGATE_TOKEN) {
+		setInterval(() => updateDelegate(client), 15 * 60 * 1000);
+	}
 }

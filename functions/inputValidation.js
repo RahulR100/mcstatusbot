@@ -193,15 +193,8 @@ export async function isValidServer(server, interaction) {
 					);
 					break;
 
-				// Underscore in domain name
-				// This is a temporary check until the new ping server is deployed
-				// TODO: Remove this check when the new ping server is deployed
-				case 'underscore':
-					await sendMessage(interaction, invalidUnderscoreLocalizations[interaction.locale] ?? 'Underscores are not allowed in domain names!');
-					break;
-
 				// Catch all
-				// Should ideall never be reached
+				// Should ideally never be reached
 				default:
 					await sendMessage(interaction, invalidServerLocalizations[interaction.locale] ?? 'This is not a valid IP address or domain name!');
 					break;

@@ -52,11 +52,8 @@ function validateAddress(ip) {
 	}
 
 	// If it's not an IP address, check if it's a valid FQDN
-	// FQDNs cannot contain underscores - this is temporary untin the new ping server is deployed
-	// RFC2181 allows underscores in hostnames
-	// TODO: Remove this check when the new ping server is deployed
-	if (!isFQDN(decoded)) {
-		return { valid: false, reason: decoded.includes('_') ? 'underscore' : 'invalid' };
+	if (!isFQDN(decoded, { allow_underscores: true })) {
+		return { valid: false, reason: 'invalid' };
 	}
 
 	return { valid: true };

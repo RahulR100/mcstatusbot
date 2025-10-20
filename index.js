@@ -13,10 +13,6 @@ let manager = new ClusterManager('./bot.js', {
 	shardsPerClusters: shardsPerClusters,
 	token: process.env.TOKEN,
 	mode: 'process',
-	restarts: {
-		max: 5,
-		interval: 24 * 60 * 60 * 1000
-	}
 });
 
 manager.extend(new ReClusterManager());
@@ -29,7 +25,7 @@ manager.on('clusterCreate', (cluster) => beaver.log('sharding', `Created cluster
 // Timeout is set to -1 since each shard takes a while to initialize
 async function spawnShards() {
 	beaver.log('sharding', `Starting bot!`);
-	await manager.spawn({ timeout: -1 });
+	await manager.spawn();
 }
 
 // Start the bot

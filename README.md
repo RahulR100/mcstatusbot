@@ -1,4 +1,6 @@
 <div align="center">
+<img src="./assets/grass.png" height="100" />
+
 <h1>Minecraft Server Status - Discord Bot</h1>
 <p>A simple Discord.js bot that displays the status of Minecraft servers.</p>
 
@@ -55,9 +57,7 @@ As usual, please open an issue here if you notice any bugs/abnormal behaviour. T
 
 **Bedrock servers:** to use the `/status` and `/monitor` commands, you must set the `type` option to "Bedrock" for the bot to function correctly.
 
-**Hosting/Proxy users:** Underscores are not allowed in Domain names! Please change your server address to remove underscores.
-
-**Local IP Addresses (Cloud hosted only)** The bot will now filter out private IP addresses (192.168, 127.0.0, 10.0 etc) which are inaccessible to the bot. The bot will now show `Status: Error` if your server's IP address has been filtered. We recommend you use a free proxy such as [Minekube](https://connect.minekube.com/) or [Playit](https://playit.gg/) to make your server securely accessible via a domain, and then monitor that domain. This does not apply if you are hosting the bot on your own hardware.
+**Local IP Addresses (Cloud hosted only)** The bot filters out private IP addresses (192.168, 127.0.0, 10.0 etc) which are inaccessible to the bot. The bot will now show `Status: Error` if your server's IP address has been filtered. If you wish to monitor a private server, you may [host your own instance](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md) of the bot, or use a free proxy such as [Playit](https://playit.gg/) to make your server securely accessible via a domain, and then monitor that domain.
 
 ## Commands
 

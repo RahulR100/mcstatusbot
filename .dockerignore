@@ -139,3 +139,8 @@
 **/vite.config.js.timestamp-*
 **/vite.config.ts.timestamp-*
 **/.vite/
+
+# Custom
+# Assets folder
+**/assets/
+**/.devcontainer/
