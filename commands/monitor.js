@@ -23,7 +23,8 @@ import {
 	onlineOptionLocalizations,
 	platformDescriptionLocalizations,
 	platformLocalizations,
-	successMessageLocalizations
+	successMessageLocalizations,
+	pingErrorMessageLocalizations
 } from '../localizations/monitor.js';
 
 // Command to monitor a new server
@@ -119,6 +120,22 @@ export async function execute(interaction) {
 		offlineIndicator: offlineIndicator || 'Offline'
 	};
 
+	// Get the status of the server we want to monitor
+	let serverStatus;
+
+	// If we can't get the status of the server, we abort the monitor command
+	try {
+		serverStatus = await getServerStatus(server);
+	} catch (error) {
+		beaver.log('monitor', 'Error pinging Minecraft server while monitoring server', server.ip);
+		await sendMessage(
+			interaction,
+			pingErrorMessageLocalizations[interaction.locale] ??
+				'There was an error pinging the server. Please verify the server address, and try again in a few seconds!'
+		);
+		return;
+	}
+
 	// Create the server category
 	// Also set the category and voice channel permissions
 	try {
@@ -146,9 +163,6 @@ export async function execute(interaction) {
 		);
 		return;
 	}
-
-	// Get the status of the server we want to monitor
-	const serverStatus = await getServerStatus(server);
 
 	// Create the channels and add to category
 	let voiceChannels;

@@ -69,6 +69,12 @@ export const errorMessageLocalizations = {
 	'es-ES': '¡Se produjo un error al crear los canales! ¡Elimina todos los canales creados manualmente!'
 };
 
+export const pingErrorMessageLocalizations = {
+	da: 'Der opstod en fejl under pingen af serveren. Kontroller venligst serveradressen og prøv igen om et par sekunder!',
+	de: 'Beim Pingen des Servers ist ein Fehler aufgetreten. Bitte überprüfen Sie die Serveradresse und versuchen Sie es in wenigen Sekunden erneut!',
+	'es-ES': '¡Se produjo un error al hacer ping al servidor! ¡Verifique la dirección del servidor y vuelva a intentarlo en unos segundos!'
+};
+
 export const successMessageLocalizations = {
 	da: {
 		notDefault: 'Serveren blev med succes overvåget!',

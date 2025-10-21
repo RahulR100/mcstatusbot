@@ -82,15 +82,7 @@ export async function execute(interaction) {
 	try {
 		serverStatus = await getServerStatus(server);
 	} catch (error) {
-		beaver.log(
-			'status',
-			'Error pinging Minecraft server while running status command',
-			JSON.stringify({
-				'Guild ID': interaction.guildId,
-				'Server IP': server.ip
-			}),
-			error
-		);
+		beaver.log('status', 'Error pinging Minecraft server while running status command', server.ip);
 		await sendMessage(
 			interaction,
 			errorMessageLocalizations[interaction.locale] ??

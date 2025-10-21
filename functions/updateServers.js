@@ -40,6 +40,7 @@ async function updateGuildServers(guild) {
 					serverError = 'Invalid IP Address';
 				} else {
 					handleUpdateError(error, server.ip, guild.id);
+					return; // We didn't get a status successfully so we return
 				}
 			}
 
