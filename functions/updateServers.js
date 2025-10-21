@@ -6,19 +6,6 @@ import { getServerStatus } from './getServerStatus.js';
 import { renameChannels } from './renameChannels.js';
 import pMap from 'p-map';
 
-// Log an error when updating servers
-function handleUpdateError(error, ip, guild) {
-	beaver.log(
-		'update-servers',
-		'Error pinging Minecraft server while updating servers',
-		JSON.stringify({
-			'Server IP': ip,
-			'Guild ID': guild
-		}),
-		error
-	);
-}
-
 // Function to update all servers in a guild
 async function updateGuildServers(guild) {
 	// Get the list of monitored servers for this guild
@@ -39,7 +26,7 @@ async function updateGuildServers(guild) {
 				if (error.message == 'Invalid server IP') {
 					serverError = 'Invalid IP Address';
 				} else {
-					handleUpdateError(error, server.ip, guild.id);
+					beaver.log('update-servers', 'Error pinging Minecraft server while updating servers', server.ip);
 					return; // We didn't get a status successfully so we return
 				}
 			}
