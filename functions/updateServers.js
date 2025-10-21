@@ -26,7 +26,7 @@ async function updateGuildServers(guild) {
 				if (error.message == 'Invalid server IP') {
 					serverError = 'Invalid IP Address';
 				} else {
-					beaver.log('update-servers', 'Error pinging Minecraft server while updating servers', server.ip);
+					// beaver.log('update-servers', 'Error pinging Minecraft server while updating servers', server.ip);
 					return; // We didn't get a status successfully so we return
 				}
 			}
