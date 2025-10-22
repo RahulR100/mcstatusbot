@@ -132,7 +132,7 @@ export async function execute(interaction) {
 			interaction,
 			pingErrorMessageLocalizations[interaction.locale]
 				? `**${error}**. ${pingErrorMessageLocalizations[interaction.locale]}`
-				: `**${error}**. This error was encountered while trying to get server status. Please verify the server address, and try again in a few seconds! Use /help for assistance.`
+				: `**${error}**. This error was encountered while trying to get server status. Please verify the server address, and try again in a few minutes! Use /help for assistance.`
 		);
 		return;
 	}

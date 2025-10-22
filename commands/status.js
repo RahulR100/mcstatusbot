@@ -87,7 +87,7 @@ export async function execute(interaction) {
 			interaction,
 			errorMessageLocalizations[interaction.locale]
 				? `**${error}**. ${errorMessageLocalizations[interaction.locale]}`
-				: `**${error}**. This error was encountered while trying to get server status. Please verify the server address, and try again in a few seconds! Use /help for assistance.`
+				: `**${error}**. This error was encountered while trying to get server status. Please verify the server address, and try again in a few minutes! Use /help for assistance.`
 		);
 		return;
 	}
@@ -114,7 +114,13 @@ export async function execute(interaction) {
 		message = `**${serverStatus.players.online} / ${serverStatus.players.max}** ${playersOnlineLocalizations[interaction.locale] ?? 'player(s) online.'}`;
 
 		// If the server returns a sample of players, which only happens if query is enabled, we add it to the message too.
-		if (serverStatus.players.sample?.length) message += `\n\n ${serverStatus.players.sample.sort().join(', ')}`;
+		if (serverStatus.players.sample?.length) {
+			let players = serverStatus.players.sample;
+			players = players.map((player) => player.name);
+			players = players.sort().join(', ');
+
+			message += `\n\n ${players}`;
+		}
 	}
 
 	// Build the response embed we will send back to discord

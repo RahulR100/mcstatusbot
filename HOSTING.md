@@ -12,16 +12,17 @@ You may choose to host the bot on your own hardware, or a cloud provider. We hav
 
 Here is a small table comparing hosting options:
 
-On cloud | On your own server
---|--
-🟢 Automatic updates by default | 🟡 Automatic updates must be manually configured
-🟢 Tested working configuration | 🟡 Images are tested, but overall configuration depends on your system setup
-🔴 Monitoring of private IP addresses is not allowed. Your Minecraft server must be publicly acessible | 🟢 Monitoring private IP addresses allowed. You do not need to expose your minecraft server to the internet
-🟡 Paid (monthly subscription) | 🟢 Free! (use your own hardware)
+| On cloud                                                                                               | On your own server                                                                                          |
+| ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| 🟢 Automatic updates by default                                                                        | 🟡 Automatic updates must be manually configured                                                            |
+| 🟢 Tested working configuration                                                                        | 🟡 Images are tested, but overall configuration depends on your system setup                                |
+| 🔴 Monitoring of private IP addresses is not allowed. Your Minecraft server must be publicly acessible | 🟢 Monitoring private IP addresses allowed. You do not need to expose your minecraft server to the internet |
+| 🟡 Paid (monthly subscription)                                                                         | 🟢 Free! (use your own hardware)                                                                            |
 
 ## General Requirements
 
 The following is required to run an instance of the bot:
+
 - A Discord bot client ID and token.
 - A computer with Docker installed (>1 CPU, >2GB RAM)
 - An internet connection
@@ -81,21 +82,21 @@ The `mcstatusbot` service accepts the following additional options, defined as e
 
 **Note:** All booleans are lower case.
 
-Name | Description | Default
----|---|---
-`UPDATE_SERVERS_ON_LAUNCH `| This option will force the bot to refresh server statuses for monitored servers on launch. Use carefully, as if your bot restarts often, you might hit Discord rate limits | `false`
-`DATABASE_URL` | If you do not wish to use the MongoDB service included by default, you may provide a custom URL here | `mongodb://mongodb:27107`
-`DATABASE_NAME` | Provide a custom database name here. This has no meaningful effect if not using a custom MongoDB instance | `mcstatusbot`
-`ALLOW_PRIVATE_IPS` | Allow the bot to check private IP addresses such as `localhost` or `192.168.x.y`. WARNING! If you are hosting on a commercial hosting provider, you may get banned! | `false`
-`CACHE_SM` | Define the cache value in seconds for the `/status` command. Setting too high a value might cause stale responses | `60`
-`CACHE_LG` | Define the cache value in seconds for the periodic voice channel update. Setting a value lower than the default has no meaningful change. Setting too high a value may cause an incorrect server status to be displayed | `360`
-`PING_URL` | The full IP address (including http://) or FQDN for the `mcpingserver` service. Useful if you want to run the ping server on a different machine, but in most cases we recommend leaving the defaults. | `http://mcpingserver:8000`
+| Name                        | Description                                                                                                                                                                                                                                     | Default                    |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| `UPDATE_SERVERS_ON_LAUNCH ` | This option will force the bot to refresh server statuses for monitored servers on launch. Use carefully, as if your bot restarts often, you might hit Discord rate limits                                                                      | `false`                    |
+| `DATABASE_URL`              | If you do not wish to use the MongoDB service included by default, you may provide a custom URL here                                                                                                                                            | `mongodb://mongodb:27107`  |
+| `DATABASE_NAME`             | Provide a custom database name here. This has no meaningful effect if not using a custom MongoDB instance                                                                                                                                       | `mcstatusbot`              |
+| `ALLOW_PRIVATE_IPS`         | Allow the bot to check private IP addresses such as `localhost` or `192.168.x.y`. WARNING! If you are hosting on a commercial hosting provider, you may get banned!                                                                             | `false`                    |
+| `CACHE_SM`                  | Define the cache value in seconds for the `/status` command. Setting a value lower than the default may get your ip address banned from some servers! Setting too high a value might cause stale responses                                      | `60`                       |
+| `CACHE_LG`                  | Define the cache value in seconds for the periodic voice channel update. Setting a value lower than the default may get your ip address banned from some servers! Setting too high a value may cause an incorrect server status to be displayed | `360`                      |
+| `PING_URL`                  | The full IP address (including http://) or FQDN for the `mcpingserver` service. Useful if you want to run the ping server on a different machine, but in most cases we recommend leaving the defaults.                                          | `http://mcpingserver:8000` |
 
 The `mcpingserver` service accepts the following additional options, defined as environment variables.
 
-Name | Description | Default
----|---|---
-`REDIS_URL` | If you do not wish to use the Redis service included by default, you may provide a custom URL here | `redis://redis:6379/0`
+| Name        | Description                                                                                        | Default                |
+| ----------- | -------------------------------------------------------------------------------------------------- | ---------------------- |
+| `REDIS_URL` | If you do not wish to use the Redis service included by default, you may provide a custom URL here | `redis://redis:6379/0` |
 
 ## Additional considerations:
 
