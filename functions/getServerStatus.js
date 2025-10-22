@@ -19,15 +19,13 @@ export async function getServerStatus(server, priority = 'high_priority') {
 
 	// Ping the server
 	// There should not be any timeouts here since the server may take a few seconds to respond
-	let response = await axios.get(`${ping_server}/status/${server.platform[0]}/${priority}/${cache_len}/${server.ip}`);
-
-	// Check for non-200 status codes
-	if (response.status !== 200) {
-		throw new Error(`Server returned status code ${response.status}`);
+	// This will throw an error for non-success messages
+	let response;
+	try {
+		response = await axios.get(`${ping_server}/status/${server.platform[0]}/${priority}/${cache_len}/${server.ip}`);
+	} catch (error) {
+		throw new Error(error.response.data.detail);
 	}
-
-	// Get response data from the server reply
-	response = response.data;
 
 	// Final check for valid response
 	// This should never be hit since if there is an error code we should get a non-200 status code
@@ -35,6 +33,9 @@ export async function getServerStatus(server, priority = 'high_priority') {
 	if (typeof response != 'object') {
 		throw new Error('Invalid server response');
 	}
+
+	// Get response data from the server reply
+	response = response.data;
 
 	return response;
 }

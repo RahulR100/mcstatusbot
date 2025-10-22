@@ -130,8 +130,9 @@ export async function execute(interaction) {
 		beaver.log('monitor', 'Error pinging Minecraft server while monitoring server', server.ip);
 		await sendMessage(
 			interaction,
-			pingErrorMessageLocalizations[interaction.locale] ??
-				'There was an error pinging the server. Please verify the server address, and try again in a few seconds!'
+			pingErrorMessageLocalizations[interaction.locale]
+				? `**${error}**. ${pingErrorMessageLocalizations[interaction.locale]}`
+				: `**${error}**. This error was encountered while trying to get server status. Please verify the server address, and try again in a few seconds! Use /help for assistance.`
 		);
 		return;
 	}

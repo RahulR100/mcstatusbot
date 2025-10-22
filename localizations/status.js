@@ -38,9 +38,10 @@ export const platformDescriptionLocalizations = {
 };
 
 export const errorMessageLocalizations = {
-	da: 'Der opstod en fejl under pingen af serveren. Kontroller venligst serveradressen og prøv igen om et par sekunder!',
-	de: 'Beim Pingen des Servers ist ein Fehler aufgetreten. Bitte überprüfen Sie die Serveradresse und versuchen Sie es in wenigen Sekunden erneut!',
-	'es-ES': '¡Se produjo un error al hacer ping al servidor! ¡Verifique la dirección del servidor y vuelva a intentarlo en unos segundos!'
+	da: 'Denne fejl opstod under forsøg på at hente serverstatus. Bekræft venligst serveradressen, og prøv igen om et par sekunder! Brug /help for at få hjælp.',
+	de: 'Beim Abrufen des Serverstatus ist ein Fehler aufgetreten. Bitte überprüfen Sie die Serveradresse und versuchen Sie es in einigen Sekunden erneut! Verwenden Sie /help, um Hilfe zu erhalten.',
+	'es-ES':
+		'Se produjo este error al intentar obtener el estado del servidor. Verifique la dirección del servidor y vuelva a intentarlo en unos segundos. Use /help para obtener ayuda.'
 };
 
 export const serverOfflineLocalizations = {

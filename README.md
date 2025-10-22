@@ -7,20 +7,20 @@
 ![Discord Server Count](https://img.shields.io/endpoint?url=https%3A%2F%2Fmcstatusbot-delegate-production.up.railway.app%2Fcount%2FgetFormatted&style=for-the-badge)
 [![Invite to Server](https://img.shields.io/static/v1?label=&message=Invite%20to%20Server&color=forestgreen&style=for-the-badge)](https://discord.com/api/oauth2/authorize?client_id=788083161296273517&permissions=269485072&scope=bot%20applications.commands)
 
+![Docker Pulls](https://img.shields.io/docker/pulls/rar1871/mcstatusbot?style=for-the-badge)
+[![Host your own](https://img.shields.io/static/v1?label=&message=Host%20Your%20Own&color=red&style=for-the-badge)](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md)
 [![Visit our website](https://img.shields.io/static/v1?label=&message=Website&color=purple&style=for-the-badge)](https://mcstatusbot.com/)
-[![Join our Discord Server](https://img.shields.io/static/v1?label=&message=Join%20Our%20Discord%20Server&color=blue&style=for-the-badge)](https://discord.gg/FVuSmQx5tJ)
-[![Host your own](https://img.shields.io/static/v1?label=&message=Host%20Your%20Own%20Instance&color=red&style=for-the-badge)](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md)
-</div>
+[![Join our Discord](https://img.shields.io/static/v1?label=&message=Join%20Our%20Discord&color=blue&style=for-the-badge)](https://discord.gg/FVuSmQx5tJ)
 
+</div>
+<br/>
 
 **To use:** Simply [invite](https://discord.com/api/oauth2/authorize?client_id=788083161296273517&permissions=269485072&scope=bot%20applications.commands) the
 bot to your server, or [host your own instance](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md).
 
-**Having trouble?** Check out the [FAQ](https://github.com/RahulR100/mcstatusbot/issues/154) or [open an issue](https://github.com/RahulR100/mcstatusbot/issues/new).
+**Having trouble?** Check out the [FAQ](https://github.com/RahulR100/mcstatusbot/issues/154), [open an issue](https://github.com/RahulR100/mcstatusbot/issues/new), or [ask our Discord server](https://discord.gg/FVuSmQx5tJ).
 
 **Want to contribute a translation?** Read the [contributing guide](https://github.com/RahulR100/mcstatusbot/blob/main/CONTRIBUTING.md) here.
-
-**Join our Discord Server** [Here!](https://discord.gg/FVuSmQx5tJ)
 
 ## Features
 
@@ -48,6 +48,9 @@ bot to your server, or [host your own instance](https://github.com/RahulR100/mcs
 The self-hosted version of the bot is now available for use! Read the [self host guide](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md) for installation and usage.
 
 Other updates:
+
+- Better display of error messages while getting server status
+- Updated `/help` command to show options for getting support with problems
 - Package and server software updates
 - General bugfixes
 

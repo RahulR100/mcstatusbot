@@ -9,7 +9,7 @@ import { commandTitleLocalizations, descriptionLocalizations, listLocalizations,
 export const data = new SlashCommandBuilder()
 	.setName('help')
     .setNameLocalizations(nameLocalizations)
-	.setDescription('List the other commands')
+	.setDescription('List commands and view options for support')
     .setDescriptionLocalizations(descriptionLocalizations);
 
 const defaultListLocalizations = [
@@ -53,7 +53,10 @@ function getFieldLocalizations(locale) {
 
 export async function execute(interaction) {
 	const helpEmbed = new EmbedBuilder()
-		.setTitle(commandTitleLocalizations[interaction.locale] ?? 'Commands:')
+		.setTitle(commandTitleLocalizations[interaction.locale] ?? 'Help:')
+		.setDescription(
+			'**Having trouble?** Check out the [FAQ](https://github.com/RahulR100/mcstatusbot/issues/154), [open an issue](https://github.com/RahulR100/mcstatusbot/issues/new), or [ask our Discord server](https://discord.gg/FVuSmQx5tJ)'
+		)
 		.setColor(embedColor)
 		.addFields(...getFieldLocalizations(interaction.locale));
 
