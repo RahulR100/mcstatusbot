@@ -18,7 +18,7 @@ const server = mongoose.Schema({
 
 // Schema for a guild
 const guild = mongoose.Schema({
-	guildId: { type: String, required: true },
+	guildId: { type: String, required: true, index: true },
 	ephemeral: { type: Boolean, required: false, default: true },
 	servers: [server]
 });
