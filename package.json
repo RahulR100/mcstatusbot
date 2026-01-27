@@ -20,7 +20,7 @@
 		"discord-hybrid-sharding": "^3.0.1",
 		"discord.js": "^14.7.1",
 		"dotenv": "^17.2.3",
-		"mongoose": "^8.1.1",
+		"mongoose": "^9.1.5",
 		"p-map": "^7.0.3",
 		"unidecode": "^1.0.1",
 		"utf-8-validate": "^6.0.3",

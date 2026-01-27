@@ -11,6 +11,9 @@ async function updateGuildServers(guild) {
 	// Get the list of monitored servers for this guild
 	const serverList = await getServers(guild.id);
 
+    // Incase there is an error or the serverlist returns blank for some reason
+    if (!serverList) return;
+
 	await Promise.allSettled(
 		serverList.map(async (server) => {
 			// Server status and error
