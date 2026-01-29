@@ -24,6 +24,7 @@
 		"p-map": "^7.0.3",
 		"unidecode": "^1.0.1",
 		"utf-8-validate": "^6.0.3",
+		"uuid": "^13.0.0",
 		"validator": "^13.9.0",
 		"zlib-sync": "^0.1.9"
 	},
