@@ -4,7 +4,7 @@
 <h1>Minecraft Server Status - Discord Bot</h1>
 <p>A simple Discord.js bot that displays the status of Minecraft servers.</p>
 
-![Discord Server Count](https://img.shields.io/endpoint?url=https%3A%2F%2Fmcstatusbot-delegate-production.up.railway.app%2Fcount%2FgetFormatted&style=for-the-badge)
+![Discord Server Count](https://img.shields.io/endpoint?url=https%3A%2F%2Fdelegate.mcstatusbot.com%2Fcount%2Ftotal%2Fformatted&style=for-the-badge)
 [![Invite to Server](https://img.shields.io/static/v1?label=&message=Invite%20to%20Server&color=forestgreen&style=for-the-badge)](https://discord.com/api/oauth2/authorize?client_id=788083161296273517&permissions=269485072&scope=bot%20applications.commands)
 
 ![Docker Pulls](https://img.shields.io/docker/pulls/rar1871/mcstatusbot?style=for-the-badge)
