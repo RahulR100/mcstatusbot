@@ -12,8 +12,7 @@
 </div>
 <br/>
 
-**To use:** Simply [invite](https://discord.com/api/oauth2/authorize?client_id=788083161296273517&permissions=269485072&scope=bot%20applications.commands) the
-bot to your server, or [host your own instance](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md).
+**To use:** [Host your own instance](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md). The central server is no longer accepting invites and will be shut down soon. See update below for further information.
 
 **Having trouble?** Check out the [FAQ](https://github.com/RahulR100/mcstatusbot/issues/154), [open an issue](https://github.com/RahulR100/mcstatusbot/issues/new), or [ask our Discord server](https://discord.gg/FVuSmQx5tJ).
 
