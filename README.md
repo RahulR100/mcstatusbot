@@ -4,9 +4,6 @@
 <h1>Minecraft Server Status - Discord Bot</h1>
 <p>A simple Discord.js bot that displays the status of Minecraft servers.</p>
 
-![Discord Server Count](https://img.shields.io/endpoint?url=https%3A%2F%2Fdelegate.mcstatusbot.com%2Fcount%2Ftotal%2Fformatted&style=for-the-badge)
-[![Invite to Server](https://img.shields.io/static/v1?label=&message=Invite%20to%20Server&color=forestgreen&style=for-the-badge)](https://discord.com/api/oauth2/authorize?client_id=788083161296273517&permissions=269485072&scope=bot%20applications.commands)
-
 ![Docker Pulls](https://img.shields.io/docker/pulls/rar1871/mcstatusbot?style=for-the-badge)
 [![Host your own](https://img.shields.io/static/v1?label=&message=Host%20Your%20Own&color=red&style=for-the-badge)](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md)
 [![Visit our website](https://img.shields.io/static/v1?label=&message=Website&color=purple&style=for-the-badge)](https://mcstatusbot.com/)
@@ -43,18 +40,16 @@ bot to your server, or [host your own instance](https://github.com/RahulR100/mcs
 </tr>
 </table>
 
-## Fall 2025: Self hosted verion release!
+## IMPORTANT UPDATE:
+Alex and I started working on MCStatusBot over 4 years ago while in college. It was a very useful project, and taught us a lot about Discord bots, scaling applications, sharding, and much more.
 
-The self-hosted version of the bot is now available for use! Read the [self host guide](https://github.com/RahulR100/mcstatusbot/blob/main/HOSTING.md) for installation and usage.
+Fast forward to today - I'm headed to grad school soon and Alex works full time. We no longer have time to maintain the server that powers over 70k instances of this bot. Trust me, it's a lot of work. I now have nothing but respect for the people who operate applications at Google's or Amazon's scale.
 
-Other updates:
+Therefore, we must make the hard decision of shutting down the server. Fear not, it will not be shutting down immediately. It will go offline on 01 September 2026, which should give y'all a few months to find an alternative, or host your own instance. In the meantime however, no new bot invite requests will be accepted.
 
-- Better display of error messages while getting server status
-- Updated `/help` command to show options for getting support with problems
-- Package and server software updates
-- General bugfixes
+Similarly, the code is not going anywhere. Updates will be sporadic but pull requests from users are welcome! The source code for all other parts of the project will be made open source and free to use. You may modify, redistribute, and use any part of the code, so long as you add an attribution to the original repository. These repositories are linked below.
 
-As usual, please open an issue here if you notice any bugs/abnormal behaviour. Thank you!
+Thank you again for all your support over the past few years! We reached over 70k servers which, considering we started at around 70 is crazy!!
 
 ## Usage notes
 
