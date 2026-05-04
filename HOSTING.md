@@ -76,6 +76,12 @@ volumes:
   mcstatusbot-data:
 ```
 
+## Final setup:
+
+Discord required all bots to deploy their commands to Discord's servers. This way Discord knows when to forward a command to a bot. You should only run this step ONCE during setup. Once commands are deployed, you can restart the bot or move it between servers as you'd like.
+
+To deploy commands, run `npm run deploy` in the container after startup. It might take a minute to complete. Once complete, restart the container and commands should now work.
+
 ## Additional options:
 
 The `mcstatusbot` service accepts the following additional options, defined as environment variables.
