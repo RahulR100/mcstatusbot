@@ -27,7 +27,7 @@ The following is required to run an instance of the bot:
 - A computer with Docker installed (>1 CPU, >2GB RAM)
 - An internet connection
 
-Hosting the bot on your own hardware requires basic knowledge of the operation and maintenance of Docker containers, and the management of Discord bots via the Developer Portal. If you feel uncomfortable with either of these, we recommend you use the centrally hosted version instead, using this [invite link](https://discord.com/api/oauth2/authorize?client_id=788083161296273517&permissions=269485072&scope=bot%20applications.commands).
+Hosting the bot on your own hardware requires basic knowledge of the operation and maintenance of Docker containers, and the management of Discord bots via the Developer Portal.
 
 **Note:** While you may run the bot on any computer, it is recommended to run it on a small server that is available 24x7. Running it on a laptop might require some additional considerations (see below)
 
